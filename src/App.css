@@ -1,3 +1,6 @@
+body {
+  font-family: 'Open Sans';font-size: 20px;
+}
 .App {
   text-align: center;
 }
@@ -35,4 +38,23 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* flex Navbar */
+.flex{
+  display: flex;
+  justify-content: space-between;
+  padding:0 20px;
+  background-color: #68E1FD;
+  height: 70px;
+  align-items: center;
+  color: #222A72;
+  
+}
+/* Search input */
+.search-bar{
+  border: none;
+  outline: none;
+  color: #282c34;
+  width: 50px;
 }
