@@ -1,5 +1,13 @@
 body {
-  font-family: 'Open Sans';font-size: 20px;
+  font-family: 'Open Sans';
+  font-size: 20px;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #EBEBF0;
+  color: #222A72;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 .App {
   text-align: center;
@@ -58,3 +66,21 @@ body {
   color: #282c34;
   width: 50px;
 }
+
+.Wrap{
+  display:flex ;
+  flex-direction: column;
+}
+
+.Main{
+  display: flex;
+  flex-direction: row;
+}
+
+.SideBar{
+  width: 200px;
+  /* height: 100vh; */
+  background-color: #68E1FD;
+
+}
+
