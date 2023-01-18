@@ -1,3 +1,14 @@
+body {
+  font-family: 'Open Sans';
+  font-size: 20px;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #EBEBF0;
+  color: #222A72;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 .App {
   text-align: center;
 }
@@ -36,3 +47,40 @@
     transform: rotate(360deg);
   }
 }
+
+/* flex Navbar */
+.flex{
+  display: flex;
+  justify-content: space-between;
+  padding:0 20px;
+  background-color: #68E1FD;
+  height: 70px;
+  align-items: center;
+  color: #222A72;
+  
+}
+/* Search input */
+.search-bar{
+  border: none;
+  outline: none;
+  color: #282c34;
+  width: 50px;
+}
+
+.Wrap{
+  display:flex ;
+  flex-direction: column;
+}
+
+.Main{
+  display: flex;
+  flex-direction: row;
+}
+
+.SideBar{
+  width: 200px;
+  /* height: 100vh; */
+  background-color: #68E1FD;
+
+}
+
