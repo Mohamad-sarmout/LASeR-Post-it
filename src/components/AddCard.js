@@ -34,7 +34,8 @@ function BootstrapDialogTitle(props) {
             position: 'absolute',
             right: 8,
             top: 8,
-            color: (theme) => theme.palette.error.dark,
+            // color: (theme) => theme.palette.error.dark,
+            color:"red"
           }}
         >
           <CloseIcon />
@@ -92,7 +93,7 @@ export default function CustomizedDialogs() {
           variant="standard"
         />
         <div style={{display:"flex",marginTop:"10px"}}>
-        <label>Color:&nbsp;</label><input type="color" defaultValue="blue" style={{width:"100%"}}/>
+        <label>Color:&nbsp;</label><input type="color"  defaultValue="#ff0000" style={{width:"100%"}}/>
         </div><br/>
          <div style={{textAlign:"center"}}>
           <Button variant='contained' autoFocus onClick={handleClose} sx={{width:'50px'}}>

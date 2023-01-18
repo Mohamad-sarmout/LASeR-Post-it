@@ -1,0 +1,17 @@
+.getStarted {
+    background-color: #EBEBF0;
+}
+
+.title {
+    color: #222A72;
+}
+
+.btn {
+    color: White;
+    font-weight: 700;
+    background-color: #68E1FD;
+    padding: 10px 30px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+}
