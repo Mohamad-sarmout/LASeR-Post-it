@@ -5,12 +5,10 @@ import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-// import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-// import Typography from '@mui/material/Typography';
-import { TextField, Typography } from '@mui/material';
-import { BlockPicker, SketchPicker } from 'react-color';
+import { TextField } from '@mui/material';
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -94,16 +92,14 @@ export default function CustomizedDialogs() {
           variant="standard"
         />
         <div style={{display:"flex",marginTop:"10px"}}>
-        <label>Color:&nbsp;</label><input type="color" style={{width:"100%"}}/>
+        <label>Color:&nbsp;</label><input type="color" defaultValue="blue" style={{width:"100%"}}/>
         </div><br/>
-        {/* <DialogActions> */}
          <div style={{textAlign:"center"}}>
           <Button variant='contained' autoFocus onClick={handleClose} sx={{width:'50px'}}>
             Save
           </Button>
           </div>
           </DialogContent>
-        {/* </DialogActions> */}
       </BootstrapDialog>
     </div>
   );
