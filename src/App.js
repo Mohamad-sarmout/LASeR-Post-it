@@ -1,11 +1,11 @@
 import './App.css';
-import AddCard from './components/AddCard';
-import GetStarted from './components/GetStarted';
+import GetStarted from './components/GetStarted/GetStarted';
+import AddCard from "./components/AddCard";
 function App() {
   return (
     <div className="App">
-      {/* <AddCard/> */}
       <GetStarted/>
+      <AddCard/>
     </div>
   );
 }
