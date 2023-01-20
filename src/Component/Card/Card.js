@@ -64,8 +64,8 @@ export default function Card() {
                     <div className="row">
                       <h3>{card.title}<h6><h6>{card.date}</h6></h6></h3>
                       <div>
-                        <IconButton>
-                          <FavoriteBorderIcon />
+                        <IconButton onClick={()=>{console.log("hello")}}>
+                          <FavoriteBorderIcon/>
                         </IconButton>
                         <IconButton>
                           <DeleteIcon />
