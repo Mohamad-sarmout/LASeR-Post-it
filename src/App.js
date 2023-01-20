@@ -1,11 +1,9 @@
 import './App.css';
-import GetStarted from './components/GetStarted/GetStarted';
-import AddCard from "./components/AddCard";
+import Home from "./components/Home";
 function App() {
   return (
     <div className="App">
-      <GetStarted/>
-      <AddCard/>
+      <Home/>
     </div>
   );
 }
