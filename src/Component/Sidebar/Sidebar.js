@@ -3,13 +3,14 @@ import Divider from "@mui/material/Divider";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import Favorite from "@mui/icons-material/Favorite";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { IconButton } from "@mui/material";
+import { IconButton, Switch } from "@mui/material";
 import { Box, width } from "@mui/system";
 import { styled } from "@mui/material/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { NavLink } from "react-router-dom";
 import classes from "./Sidebar.module.css";
-const Sidebar = ({ show, setshow, isMobile }) => {
+const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
+  console.log(show);
   const Root = styled(Box)(({ theme }) => ({
     zIndex: "30",
     [theme.breakpoints.down("md")]: {
@@ -21,6 +22,8 @@ const Sidebar = ({ show, setshow, isMobile }) => {
     },
   }));
   console.log(show);
+  const label = { inputProps: { "aria-label": "switch mode" } };
+
   return (
     <>
       <IconButton
@@ -31,6 +34,12 @@ const Sidebar = ({ show, setshow, isMobile }) => {
       </IconButton>
       <Root className={classes.flex}>
         <div className={classes.start}>
+          {/* <div> */}
+          <Switch
+            {...label}
+            onChange={(e) => setfreeMode(e.target.checked)}
+            title="Switch for free mode"
+          />
           {isMobile && (
             <IconButton
               onClick={() => setshow(!show)}
@@ -39,6 +48,7 @@ const Sidebar = ({ show, setshow, isMobile }) => {
               <ChevronLeftIcon />
             </IconButton>
           )}
+          {/* </div> */}
         </div>
         <NavLink
           to="/i"

@@ -5,12 +5,16 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { Paper } from "@mui/material";
 import { IconButton } from "@mui/material";
 
-
-function Navbar() {
+function Navbar({ isMobile, show, setshow }) {
+  console.log(show);
   return (
     <div className="flex">
       <span>
-        <MenuIcon sx={{ mb: "-6px", mr: "5px" }} />
+        {isMobile && !show && (
+          <IconButton onClick={() => setshow(!show)}>
+            <MenuIcon sx={{ mb: "-6px", mr: "5px" }} />
+          </IconButton>
+        )}
         Post it App
       </span>
       <form>

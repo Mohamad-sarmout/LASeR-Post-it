@@ -1,8 +1,8 @@
 .flex {
   position: fixed;
-  top: 70px;
+  top: 0px;
   left: 0;
-  padding-top: 3rem;
+  padding-top: 7rem;
   background: #d3e9f2;
   align-items: stretch;
   width: 220px;
@@ -20,6 +20,8 @@
 }
 .start {
   align-self: flex-end;
+  display: flex;
+  flex-direction: column-reverse;
 }
 .link {
   display: flex;
