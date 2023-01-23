@@ -17,28 +17,35 @@ function Navbar({ isMobile, show, setshow }) {
         )}
         Post it App
       </span>
-      <form>
-        <Paper
-          component="form"
-          sx={{
-            borderRadius: 20,
-            border: "1px solid #e3e3e3",
-            pl: 2,
-            boxShadow: "none",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            mr: { sm: 5 },
-            width: { xs: "100px", sm: "150px", md: "200px" },
-            height: { xs: "30px", sm: "30px", md: "30px" },
-          }}
-        >
-          <input className="search-bar" placeholder="Search..." type="text" />{" "}
-          <IconButton type="submit" sx={{ color: "#68E1FD" }}>
-            <SearchIcon />
-          </IconButton>
-        </Paper>
-      </form>
+      {/* <form> */}
+      <Paper
+        component="form"
+        sx={{
+          borderRadius: 20,
+          border: "1px solid #e3e3e3",
+          pl: 2,
+          boxShadow: "none",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          mr: { sm: 5 },
+          width: { xs: "100px", sm: "150px", md: "200px" },
+          height: { xs: "30px", sm: "30px", md: "30px" },
+        }}
+      >
+        <input
+          className="search-bar"
+          id="search"
+          name="search"
+          placeholder="Search..."
+          type="text"
+          onChange={(e) => console.log({ [e.target.name]: e.target.value })}
+        />{" "}
+        <IconButton type="submit" sx={{ color: "#68E1FD" }}>
+          <SearchIcon />
+        </IconButton>
+      </Paper>
+      {/* </form> */}
       <span>
         <Brightness4Icon />
       </span>

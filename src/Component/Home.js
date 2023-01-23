@@ -12,6 +12,16 @@ function Home() {
   return (
     <div style={{ backgroundColor: "#EBEBF0" }} className="Wrap">
       <Navbar isMobile={isMobile} show={show} setshow={setshow} />
+      <h1
+        style={{
+          position: "relative",
+          top: "10px",
+          left: isMobile ? (show ? "4rem" : "3rem") : "250px",
+        }}
+      >
+        Post it
+      </h1>
+
       <Sidebar
         show={show}
         setshow={setshow}
@@ -20,7 +30,12 @@ function Home() {
         mode={freeMode}
       />
       <div className="Main">
+        {/* <h1 style={{ position: "relative", left: "390px" }}>Post it</h1> */}
+
         <Card isMobile={isMobile} show={show} free={freeMode} />
+      </div>
+      <div className="add">
+        <span>+</span>
       </div>
     </div>
   );
