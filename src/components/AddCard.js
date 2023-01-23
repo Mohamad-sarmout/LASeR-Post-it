@@ -1,9 +1,12 @@
-import * as React from "react";
+import  React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import { IconButton, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { useDispatch } from "react-redux";
+import { AddCard } from "@mui/icons-material";
+import { ADD_POST } from "../store/action/PostAction";
 
 const style = {
   position: "absolute",
@@ -17,6 +20,8 @@ const style = {
 };
 
 export default function KeepMountedModal({ showAddCard, setShowAddCard }) {
+  const [addCard, setaddCard] = useState({id:1,title:"assssaas",Text:"",date:"",color:"",stylefont:""})
+  const dispatch = useDispatch();
   return (
     <div>
       {
@@ -42,9 +47,11 @@ export default function KeepMountedModal({ showAddCard, setShowAddCard }) {
               <CloseIcon />
             </IconButton>
             <TextField
+            // spread on state
+             onChange={(e)=> console.log(addCard)}
               sx={{ backgroundColor: "#f0f8ff" }}
               id="filled-multiline-flexible"
-              label="Title"
+              label="title"
               multiline
               maxRows={4}
               variant="standard"
@@ -96,7 +103,10 @@ export default function KeepMountedModal({ showAddCard, setShowAddCard }) {
               <Button
                 variant="contained"
                 autoFocus
-                onClick={() => setShowAddCard((prev) => !prev)}
+                onClick={() => {
+                  setShowAddCard((prev) => !prev);
+                  dispatch({type:ADD_POST,value:AddCard});
+                  }}
                 sx={{ width: "50px" }}
               >
                 Save

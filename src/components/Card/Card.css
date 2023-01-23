@@ -40,8 +40,8 @@ h1 {
 }
 
 .Card {
-  resize: both;
-  overflow: scroll;
+  /* resize: both;
+  overflow: scroll; */
   position: relative;
   background-color: #fff;
   border-radius: 10px;
