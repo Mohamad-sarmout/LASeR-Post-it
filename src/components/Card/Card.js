@@ -8,9 +8,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch, useSelector } from "react-redux";
 import { DELETE_POST } from "../../store/action/PostAction";
 
-export default function Card({ isMobile, show, free, setShowAddCard }) {
+
+export default function Card({ isMobile, show, free, setShowAddCard,setcurrentId }) {
    const Cards = useSelector(state => state);
    const dispatch = useDispatch()
+   console.log(Cards);
+
 
 
  const handleDelete = () =>{
@@ -22,7 +25,7 @@ export default function Card({ isMobile, show, free, setShowAddCard }) {
         <div
           className="Card"
           key={card}
-          style={{ height: "auto", width: "auto", padding: "10px" }}
+          style={{ height: "auto", width: "auto", padding: "10px",backgroundColor:card?.color,fontFamily:card.stylefont}}
         >
           <div className="row">
             <h3>
@@ -32,7 +35,7 @@ export default function Card({ isMobile, show, free, setShowAddCard }) {
               </h6>
             </h3>
             <div>
-              <IconButton>
+              <IconButton >
                 <FavoriteBorderIcon />
               </IconButton>
               <IconButton onClick={()=>dispatch({type:DELETE_POST,value:card.id})}>
@@ -43,7 +46,8 @@ export default function Card({ isMobile, show, free, setShowAddCard }) {
           <p>{card?.Text}</p>
 
           <div style={{ textAlign: "end" }}>
-            <IconButton onClick={()=> {setShowAddCard(prevState => !prevState);}} >
+            <IconButton onClick={()=> {setcurrentId(card.id)
+              setShowAddCard(prevState => !prevState);}} >
               <EditIcon/>
             </IconButton>
           </div>

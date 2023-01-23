@@ -45,3 +45,23 @@ body {
   /* height: 100vh; */
   background-color: #68e1fd;
 }
+
+.add {
+  position: fixed;
+  font: 1em sans-serif;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: xx-large;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  background-color: #68e1fd;
+  cursor: pointer;
+}
+.add:active {
+  box-shadow: 0 0 10px #68e1fd;
+}
