@@ -1,12 +1,12 @@
-import  React, { useState } from "react";
+import  React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import { IconButton, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AddCard } from "@mui/icons-material";
-import { ADD_POST } from "../store/action/PostAction";
+import { ADD_POST, UPDATE_POST } from "../store/action/PostAction";
 
 const style = {
   position: "absolute",
@@ -19,17 +19,45 @@ const style = {
   p: 2,
 };
 
-export default function KeepMountedModal({ showAddCard, setShowAddCard }) {
-  const [addCard, setaddCard] = useState({id:1,title:"assssaas",Text:"",date:"",color:"",stylefont:""})
+export default function KeepMountedModal({ showAddCard, setShowAddCard ,currentId,setcurrentId}) {
+  const [addCard, setaddCard] = useState({id:"",title:"",Text:"",date:"",color:"",stylefont:""})
   const dispatch = useDispatch();
-  dispatch({type:ADD_POST})
+  const currentPost=useSelector(state=> currentId ? state.find(post=>post.id===currentId) : null)
+  console.log(currentPost);
+  const handleChange = (event) => {
+    setaddCard({...addCard,[event.target.name]:event.target.value})
+    console.log(addCard);
+  }
+  useEffect(() => {
+if(currentId){
+  setaddCard(currentPost)
+  console.log(addCard);
+
+console.log(addCard);
+}}, [currentId])
+  const handleSubmit=()=>{
+    if(currentId){
+      setShowAddCard((prev) => !prev);
+      dispatch({type:UPDATE_POST,value:addCard});      
+    }
+    else{
+    setShowAddCard((prev) => !prev);
+    dispatch({type:ADD_POST,value:{...addCard,id:Math.random()}});
+  }
+  clear()
+}
+const clear =()=>{
+  setcurrentId(0)
+  setaddCard({id:"",title:"",Text:"",date:"",color:"",stylefont:""})
+}
   return (
     <div>
       {
         <Modal
           keepMounted
           open={showAddCard}
-          onClose={() => setShowAddCard((prev) => !prev)}
+          onClose={() =>{ setShowAddCard((prev) => !prev);
+          clear()}}
           aria-labelledby="keep-mounted-modal-title"
           aria-describedby="keep-mounted-modal-description"
         >
@@ -37,7 +65,8 @@ export default function KeepMountedModal({ showAddCard, setShowAddCard }) {
             <h1>Add Post</h1>
             <IconButton
               aria-label="close"
-              onClick={() => setShowAddCard((prev) => !prev)}
+              onClick={() =>{ setShowAddCard((prev) => !prev);
+              clear()}}
               sx={{
                 position: "absolute",
                 right: 8,
@@ -49,10 +78,12 @@ export default function KeepMountedModal({ showAddCard, setShowAddCard }) {
             </IconButton>
             <TextField
             // spread on state
-             onChange={(e)=> console.log(addCard)}
+             onChange={handleChange}
               sx={{ backgroundColor: "#f0f8ff" }}
               id="filled-multiline-flexible"
               label="title"
+              name="title"
+              value={addCard?.title}
               multiline
               maxRows={4}
               variant="standard"
@@ -61,6 +92,9 @@ export default function KeepMountedModal({ showAddCard, setShowAddCard }) {
             /><br /><br />
             <input
               type="date"
+              name="date"
+              onChange={handleChange}
+              value={addCard?.date}
               style={{
                 width: "100%",
                 height: "50px",
@@ -73,6 +107,9 @@ export default function KeepMountedModal({ showAddCard, setShowAddCard }) {
               id="filled-multiline-static"
               label="Description"
               multiline
+              name="Text"
+              onChange={handleChange}
+              value={addCard?.Text}
               rows={4}
               fullWidth
               variant="standard"
@@ -80,8 +117,11 @@ export default function KeepMountedModal({ showAddCard, setShowAddCard }) {
             <div style={{ display: "flex", marginTop: "10px" }}>
               <label>Color:&nbsp;</label>
               <input
+               name="color"
+               onChange={handleChange}
+               value={addCard?.color}
                 type="color"
-                defaultValue="#ff0000"
+                // defaultValue="#ff0000"
                 style={{ width: "100%" }}
               />
             </div><br />
@@ -93,6 +133,9 @@ export default function KeepMountedModal({ showAddCard, setShowAddCard }) {
                   width: "100%",
                   height: "40px",
                 }}
+                name="stylefont"
+                onChange={handleChange}
+                value={addCard?.stylefont}
               >
                 <option>Roboto</option>
                 <option>Open Sans</option>
@@ -104,13 +147,10 @@ export default function KeepMountedModal({ showAddCard, setShowAddCard }) {
               <Button
                 variant="contained"
                 autoFocus
-                onClick={() => {
-                  setShowAddCard((prev) => !prev);
-                  dispatch({type:ADD_POST,value:AddCard});
-                  }}
+                onClick={handleSubmit}
                 sx={{ width: "50px" }}
               >
-                Save
+             {currentId ? "EDIT" : "SAVE"}
               </Button>
             </div>
           </Box>
