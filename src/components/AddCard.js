@@ -1,11 +1,10 @@
-import  React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import { IconButton, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
-import { AddCard } from "@mui/icons-material";
 import { ADD_POST, UPDATE_POST } from "../store/action/PostAction";
 
 const style = {
@@ -19,45 +18,71 @@ const style = {
   p: 2,
 };
 
-export default function KeepMountedModal({ showAddCard, setShowAddCard ,currentId,setcurrentId}) {
-  const [addCard, setaddCard] = useState({id:"",title:"",Text:"",date:"",color:"",stylefont:""})
+export default function KeepMountedModal({
+  showAddCard,
+  setShowAddCard,
+  currentId,
+  setcurrentId,
+}) {
+  const [addCard, setaddCard] = useState({
+    id: "",
+    title: "",
+    Text: "",
+    color: "",
+    stylefont: "",
+    date: "",
+  });
   const dispatch = useDispatch();
-  const currentPost=useSelector(state=> currentId ? state.find(post=>post.id===currentId) : null)
+  const currentPost = useSelector((state) =>
+    currentId ? state.find((post) => post.id === currentId) : null
+  );
   console.log(currentPost);
   const handleChange = (event) => {
-    setaddCard({...addCard,[event.target.name]:event.target.value})
+    setaddCard({ ...addCard, [event.target.name]: event.target.value });
     console.log(addCard);
-  }
+  };
   useEffect(() => {
-if(currentId){
-  setaddCard(currentPost)
-  console.log(addCard);
+    if (currentId) {
+      setaddCard(currentPost);
+      console.log(addCard);
 
-console.log(addCard);
-}}, [currentId])
-  const handleSubmit=()=>{
-    if(currentId){
-      setShowAddCard((prev) => !prev);
-      dispatch({type:UPDATE_POST,value:addCard});      
+      console.log(addCard);
     }
-    else{
-    setShowAddCard((prev) => !prev);
-    dispatch({type:ADD_POST,value:{...addCard,id:Math.random()}});
-  }
-  clear()
-}
-const clear =()=>{
-  setcurrentId(0)
-  setaddCard({id:"",title:"",Text:"",date:"",color:"",stylefont:""})
-}
+  }, [currentId]);
+  const handleSubmit = () => {
+    if (currentId) {
+      setShowAddCard((prev) => !prev);
+      dispatch({ type: UPDATE_POST, value: addCard });
+    } else {
+      setShowAddCard((prev) => !prev);
+      dispatch({
+        type: ADD_POST,
+        value: { ...addCard, id: Math.random(), date: new Date() },
+      });
+    }
+    clear();
+  };
+  const clear = () => {
+    setcurrentId(0);
+    setaddCard({
+      id: "",
+      title: "",
+      Text: "",
+      color: "",
+      stylefont: "",
+      date: "",
+    });
+  };
   return (
     <div>
       {
         <Modal
           keepMounted
           open={showAddCard}
-          onClose={() =>{ setShowAddCard((prev) => !prev);
-          clear()}}
+          onClose={() => {
+            setShowAddCard((prev) => !prev);
+            clear();
+          }}
           aria-labelledby="keep-mounted-modal-title"
           aria-describedby="keep-mounted-modal-description"
         >
@@ -65,8 +90,10 @@ const clear =()=>{
             <h1>Add Post</h1>
             <IconButton
               aria-label="close"
-              onClick={() =>{ setShowAddCard((prev) => !prev);
-              clear()}}
+              onClick={() => {
+                setShowAddCard((prev) => !prev);
+                clear();
+              }}
               sx={{
                 position: "absolute",
                 right: 8,
@@ -77,8 +104,8 @@ const clear =()=>{
               <CloseIcon />
             </IconButton>
             <TextField
-            // spread on state
-             onChange={handleChange}
+              // spread on state
+              onChange={handleChange}
               sx={{ backgroundColor: "#f0f8ff" }}
               id="filled-multiline-flexible"
               label="title"
@@ -89,8 +116,10 @@ const clear =()=>{
               variant="standard"
               width="100%"
               fullWidth
-            /><br /><br />
-            <input
+            />
+            <br />
+            <br />
+            {/* <input
               type="date"
               name="date"
               onChange={handleChange}
@@ -101,7 +130,7 @@ const clear =()=>{
                 backgroundColor: "#f0f8ff",
                 border: "none",
               }}
-            /><br /><br />
+            /><br /><br /> */}
             <TextField
               sx={{ backgroundColor: "#f0f8ff" }}
               id="filled-multiline-static"
@@ -113,18 +142,21 @@ const clear =()=>{
               rows={4}
               fullWidth
               variant="standard"
-            /><br /><br />
+            />
+            <br />
+            <br />
             <div style={{ display: "flex", marginTop: "10px" }}>
               <label>Color:&nbsp;</label>
               <input
-               name="color"
-               onChange={handleChange}
-               value={addCard?.color}
+                name="color"
+                onChange={handleChange}
+                value={addCard?.color}
                 type="color"
                 // defaultValue="#ff0000"
                 style={{ width: "100%" }}
               />
-            </div><br />
+            </div>
+            <br />
             <div style={{ display: "flex", alignItems: "center" }}>
               <label>Fonts:</label>&nbsp;
               <select
@@ -150,7 +182,7 @@ const clear =()=>{
                 onClick={handleSubmit}
                 sx={{ width: "50px" }}
               >
-             {currentId ? "EDIT" : "SAVE"}
+                {currentId ? "EDIT" : "SAVE"}
               </Button>
             </div>
           </Box>

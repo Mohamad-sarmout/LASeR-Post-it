@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch, useSelector } from "react-redux";
 import { DELETE_POST } from "../../store/action/PostAction";
+import moment from "moment/moment";
 
 export default function Card({
   isMobile,
@@ -66,8 +67,8 @@ export default function Card({
               // overflow: "scroll",
               width: "auto",
               height: "auto",
-              maxWidth: isMobile ? "280px" : "500px",
-              maxHeight: "500px",
+              maxWidth: isMobile ? "280px" : "330px",
+              maxHeight: "330px",
               backgroundColor: card?.color,
               fontFamily: card.stylefont,
             }}
@@ -75,7 +76,7 @@ export default function Card({
             <div className="row">
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <h3>{card.title}</h3>
-                <h6>{card.date}</h6>
+                <h6>{moment(card?.date).fromNow()}</h6>
               </div>
               <div>
                 <IconButton>
