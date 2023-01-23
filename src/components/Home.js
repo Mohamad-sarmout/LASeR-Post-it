@@ -4,11 +4,13 @@ import Card from "./Card/Card";
 import Draggable from "react-draggable";
 import { useMediaQuery } from "@mui/material";
 import Sidebar from "./Sidebar/Sidebar";
-
+import AddCard from "./AddCard";
 function Home() {
   const [show, setshow] = useState(true);
   const [freeMode, setfreeMode] = useState(false);
   const isMobile = useMediaQuery("(max-width:900px)");
+  const [showAddCard, setShowAddCard] = useState(false);
+  const [currentId, setcurrentId] = useState(null);
   return (
     <div style={{ backgroundColor: "#EBEBF0" }} className="Wrap">
       <Navbar isMobile={isMobile} show={show} setshow={setshow} />
@@ -30,11 +32,22 @@ function Home() {
         mode={freeMode}
       />
       <div className="Main">
-        {/* <h1 style={{ position: "relative", left: "390px" }}>Post it</h1> */}
-
-        <Card isMobile={isMobile} show={show} free={freeMode} />
+        <Card
+          isMobile={isMobile}
+          show={show}
+          free={freeMode}
+          setShowAddCard={setShowAddCard}
+          currentId={currentId}
+          setcurrentId={setcurrentId}
+        />
       </div>
-      <div className="add">
+      <AddCard
+        showAddCard={showAddCard}
+        setShowAddCard={setShowAddCard}
+        currentId={currentId}
+        setcurrentId={setcurrentId}
+      />
+      <div className="add" onClick={() => setShowAddCard(true)}>
         <span>+</span>
       </div>
     </div>
