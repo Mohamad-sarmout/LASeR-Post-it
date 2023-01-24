@@ -12,13 +12,7 @@ import { DELETE_POST } from "../../store/action/PostAction";
 export default function Card({ isMobile, show, free, setShowAddCard,setcurrentId }) {
    const Cards = useSelector(state => state);
    const dispatch = useDispatch()
-   console.log(Cards);
 
-
-
- const handleDelete = () =>{
-  dispatch({type:DELETE_POST,value:1});
-}
   const drag = Cards?.map((card) => (
     <Draggable>
       <Grid item xs={12} md={6} lg={4}>
@@ -35,10 +29,10 @@ export default function Card({ isMobile, show, free, setShowAddCard,setcurrentId
               </h6>
             </h3>
             <div>
-              <IconButton >
+              <IconButton className="icons">
                 <FavoriteBorderIcon />
               </IconButton>
-              <IconButton onClick={()=>dispatch({type:DELETE_POST,value:card.id})}>
+              <IconButton className="icons" onClick={()=>dispatch({type:DELETE_POST,value:card.id})}>
                 <DeleteIcon />
               </IconButton>
             </div>
@@ -47,7 +41,8 @@ export default function Card({ isMobile, show, free, setShowAddCard,setcurrentId
 
           <div style={{ textAlign: "end" }}>
             <IconButton onClick={()=> {setcurrentId(card.id)
-              setShowAddCard(prevState => !prevState);}} >
+              setShowAddCard(prevState => !prevState);}}
+              className="icons" >
               <EditIcon/>
             </IconButton>
           </div>
@@ -106,41 +101,6 @@ export default function Card({ isMobile, show, free, setShowAddCard,setcurrentId
           <Grid container>
             {/* {free ? drag : notDrag} */}
             {drag}
-            {/* {Cards.map((card) => (
-              <Draggable>
-                <Grid item xs={12} md={6} lg={4}>
-                  <div
-                    className="Card"
-                    key={card}
-                    style={{ height: "auto", width: "auto", padding: "10px" }}
-                  >
-                    <div className="row">
-                      <h3>
-                        {card.title}
-                        <h6>
-                          <h6>{card.date}</h6>
-                        </h6>
-                      </h3>
-                      <div>
-                        <IconButton onClick={()=>{console.log("hello")}}>
-                          <FavoriteBorderIcon/>
-                        </IconButton>
-                        <IconButton>
-                          <DeleteIcon />
-                        </IconButton>
-                      </div>
-                    </div>
-                    <p>{card.Text}</p>
-
-                    <div style={{ textAlign: "end" }}>
-                      <IconButton>
-                        <EditIcon />
-                      </IconButton>
-                    </div>
-                  </div>
-                </Grid>
-              </Draggable>
-            ))} */}
           </Grid>
 
           {/* </Container> */}

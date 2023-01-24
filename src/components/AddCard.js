@@ -23,17 +23,15 @@ export default function KeepMountedModal({ showAddCard, setShowAddCard ,currentI
   const [addCard, setaddCard] = useState({id:"",title:"",Text:"",date:"",color:"",stylefont:""})
   const dispatch = useDispatch();
   const currentPost=useSelector(state=> currentId ? state.find(post=>post.id===currentId) : null)
-  console.log(currentPost);
+
   const handleChange = (event) => {
     setaddCard({...addCard,[event.target.name]:event.target.value})
-    console.log(addCard);
+
   }
   useEffect(() => {
 if(currentId){
   setaddCard(currentPost)
-  console.log(addCard);
 
-console.log(addCard);
 }}, [currentId])
   const handleSubmit=()=>{
     if(currentId){
@@ -121,7 +119,6 @@ const clear =()=>{
                onChange={handleChange}
                value={addCard?.color}
                 type="color"
-                // defaultValue="#ff0000"
                 style={{ width: "100%" }}
               />
             </div><br />

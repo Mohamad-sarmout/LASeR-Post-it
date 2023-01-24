@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { Paper } from "@mui/material";
 import { IconButton } from "@mui/material";
+import ReactSwitch from 'react-switch';
+function Navbar({ isMobile, show, setshow, toggleTheme, theme }) {
 
-function Navbar({ isMobile, show, setshow }) {
-  console.log(show);
+
   return (
-    <div className="flex">
+    <div id="navbar" className="flex">
       <span>
         {isMobile && !show && (
           <IconButton onClick={() => setshow(!show)}>
@@ -34,13 +35,16 @@ function Navbar({ isMobile, show, setshow }) {
           }}
         >
           <input className="search-bar" placeholder="Search..." type="text" />{" "}
-          <IconButton type="submit" sx={{ color: "#68E1FD" }}>
+          <IconButton className="searchIcon" type="submit" sx={{ color: "#68E1FD" }}>
             <SearchIcon />
           </IconButton>
         </Paper>
       </form>
-      <span>
-        <Brightness4Icon />
+      <span style={{display:"flex", alignItems:"center"}}>
+        {/* <Brightness4Icon /> */}
+        <label> {theme === "light" ? "Light Mode" : "Dark Mode"}</label>&nbsp;
+        <ReactSwitch onChange={toggleTheme} checked={theme === "dark"} onColor="#86d3ff"
+/>
       </span>
     </div>
   );

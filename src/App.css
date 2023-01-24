@@ -65,3 +65,35 @@ body {
 .add:active {
   box-shadow: 0 0 10px #68e1fd;
 }
+
+#dark .flex {
+  background-color: #000;
+}
+
+#dark .add {
+  background-color: #000;
+  color: #fff;
+}
+#dark .flex {
+  background: #000;
+  color: #fff;
+}
+
+#dark .Card {
+  background-color: #000;
+  color: #fff;
+  border-color: #000;
+}
+#dark .searchIcon {
+  color: #000;
+}
+#dark .icons {
+  color: #fff;
+}
+#dark .text {
+  color: #fff;
+}
+
+#dark #sidebar {
+  background-color: #000000;
+}

@@ -10,8 +10,8 @@ function GetStarted() {
         <h1 className='title'>Post-It App</h1>
         <h4 className='title'>Let's do this</h4>
         <img className='arrangeImg' src={Arrange} alt="blabla"/>
-        <h4 className='title'>Gets things done with Post-It</h4>
-        <button className='btn'>Get Started</button>
+        <h2 className='title'>Gets things done with Post-It</h2>
+        <button className='btnn'>Get Started</button>
         <img className="leftEllipse" src={LeftEllipse} alt="blabla"/>
         <img className="rightEllipse" src={RightEllipse} alt="blabla"/>
     </div>
