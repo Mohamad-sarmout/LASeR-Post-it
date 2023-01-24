@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
-import Card from "./Card/Card";
 import Draggable from "react-draggable";
 import { useMediaQuery } from "@mui/material";
 import Sidebar from "./Sidebar/Sidebar";
 import AddCard from "./AddCard";
+import { useLocation } from "react-router";
+import Card from "./Card/Card";
 function Home() {
   const [show, setshow] = useState(true);
   const [freeMode, setfreeMode] = useState(false);
   const isMobile = useMediaQuery("(max-width:900px)");
   const [showAddCard, setShowAddCard] = useState(false);
-  const [currentId, setcurrentId] = useState(null);
+  const [currentId, setcurrentId] = useState("");
   return (
     <div style={{ backgroundColor: "#EBEBF0" }} className="Wrap">
       <Navbar isMobile={isMobile} show={show} setshow={setshow} />

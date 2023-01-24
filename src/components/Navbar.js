@@ -39,6 +39,7 @@ function Navbar({ isMobile, show, setshow }) {
           name="search"
           placeholder="Search..."
           type="text"
+          style={{ width: "80%" }}
           onChange={(e) => console.log({ [e.target.name]: e.target.value })}
         />{" "}
         <IconButton type="submit" sx={{ color: "#68E1FD" }}>

@@ -5,10 +5,17 @@ import "./Card.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
-import { DELETE_POST } from "../../store/action/PostAction";
+import { ADD_TASK, DELETE_POST } from "../../store/action/PostAction";
 import moment from "moment/moment";
-
+const tasks = [
+  "wake up early",
+  "make your bed",
+  "brush your teeth",
+  "got to school",
+  "meet my friends",
+];
 export default function Card({
   isMobile,
   show,
@@ -19,14 +26,13 @@ export default function Card({
   const Cards = useSelector((state) => state);
   const [isDrag, setisDrag] = useState(true);
   const dispatch = useDispatch();
-  console.log(Cards);
   return (
     <div
       style={{
         display: "flex",
         flexWrap: "wrap",
         paddingTop: "50px",
-        height: "250vh",
+        height: window.innerHeight,
         width: window.innerWidth,
         position: "relative",
         // overflow: "hidden",
@@ -37,23 +43,19 @@ export default function Card({
     >
       {Cards.map((card) => (
         <Draggable
-          cancel="true"
+          // cancel="true"
           disabled={free && isDrag ? (isMobile ? false : false) : true}
           axis="both"
           bounds="parent"
           onStart={() => {
             setisDrag(true);
-            console.log("start");
           }}
           onStop={() => {
             setisDrag(false);
-            console.log("end");
-            console.log(isDrag);
           }}
           onDrag={() => console.log("drag")}
           onMouseDown={() => {
             setisDrag(true);
-            console.log("down");
           }}
         >
           <div
@@ -68,7 +70,8 @@ export default function Card({
               width: "auto",
               height: "auto",
               maxWidth: isMobile ? "280px" : "330px",
-              maxHeight: "330px",
+              maxHeight: "280px",
+              color: card?.fontColor,
               backgroundColor: card?.color,
               fontFamily: card.stylefont,
             }}
@@ -89,17 +92,37 @@ export default function Card({
                 >
                   <DeleteIcon />
                 </IconButton>
+                <IconButton
+                  onClick={() => {
+                    setcurrentId(card.id);
+                    setShowAddCard((prevState) => !prevState);
+                  }}
+                >
+                  <EditIcon />
+                </IconButton>
               </div>
             </div>
-            <p>{card.Text}</p>
+            <div>
+              {card.Text.length > 1
+                ? card?.Text?.map((task, index) => (
+                    <p>
+                      {index + 1}:{task} <br></br>
+                    </p>
+                  ))
+                : card?.Text?.map((task, index) => (
+                    <p>
+                      {task} <br></br>
+                    </p>
+                  ))}
+            </div>
             <div style={{ textAlign: "end" }}>
               <IconButton
                 onClick={() => {
-                  setcurrentId(card.id);
+                  setcurrentId(ADD_TASK + card?.id);
                   setShowAddCard((prevState) => !prevState);
                 }}
               >
-                <EditIcon />
+                <AddIcon />
               </IconButton>
             </div>
           </div>

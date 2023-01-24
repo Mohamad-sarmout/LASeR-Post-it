@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import { IconButton, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_POST, UPDATE_POST } from "../store/action/PostAction";
+import { ADD_POST, ADD_TASK, UPDATE_POST } from "../store/action/PostAction";
 
 const style = {
   position: "absolute",
@@ -27,8 +27,9 @@ export default function KeepMountedModal({
   const [addCard, setaddCard] = useState({
     id: "",
     title: "",
-    Text: "",
+    Text: [],
     color: "",
+    fontColor: "",
     stylefont: "",
     date: "",
   });
@@ -38,36 +39,43 @@ export default function KeepMountedModal({
   );
   console.log(currentPost);
   const handleChange = (event) => {
-    setaddCard({ ...addCard, [event.target.name]: event.target.value });
-    console.log(addCard);
+    event.target.name !== "Text"
+      ? setaddCard({ ...addCard, [event.target.name]: event.target.value })
+      : setaddCard({
+          ...addCard,
+          [event.target.name]: event.target.value.split(","),
+        });
   };
   useEffect(() => {
-    if (currentId) {
+    if (currentId && !currentId.includes(ADD_TASK)) {
       setaddCard(currentPost);
-      console.log(addCard);
-
-      console.log(addCard);
     }
   }, [currentId]);
   const handleSubmit = () => {
-    if (currentId) {
+    if (currentId && !currentId?.includes(ADD_TASK)) {
       setShowAddCard((prev) => !prev);
       dispatch({ type: UPDATE_POST, value: addCard });
+    } else if (currentId?.includes(ADD_TASK)) {
+      setShowAddCard((prev) => !prev);
+      dispatch({
+        type: ADD_TASK,
+        value: { task: addCard.title, id: currentId.split("K")[1] },
+      });
     } else {
       setShowAddCard((prev) => !prev);
       dispatch({
         type: ADD_POST,
-        value: { ...addCard, id: Math.random(), date: new Date() },
+        value: { ...addCard, id: Math.random().toString(), date: new Date() },
       });
     }
     clear();
   };
   const clear = () => {
-    setcurrentId(0);
+    setcurrentId("");
     setaddCard({
       id: "",
       title: "",
-      Text: "",
+      Text: [],
       color: "",
       stylefont: "",
       date: "",
@@ -87,7 +95,13 @@ export default function KeepMountedModal({
           aria-describedby="keep-mounted-modal-description"
         >
           <Box sx={style}>
-            <h1>Add Post</h1>
+            <h1>
+              {currentId
+                ? currentId.includes(ADD_TASK)
+                  ? "Add Task"
+                  : "Edit Post"
+                : "Add Post"}
+            </h1>
             <IconButton
               aria-label="close"
               onClick={() => {
@@ -119,62 +133,67 @@ export default function KeepMountedModal({
             />
             <br />
             <br />
-            {/* <input
-              type="date"
-              name="date"
-              onChange={handleChange}
-              value={addCard?.date}
-              style={{
-                width: "100%",
-                height: "50px",
-                backgroundColor: "#f0f8ff",
-                border: "none",
-              }}
-            /><br /><br /> */}
-            <TextField
-              sx={{ backgroundColor: "#f0f8ff" }}
-              id="filled-multiline-static"
-              label="Description"
-              multiline
-              name="Text"
-              onChange={handleChange}
-              value={addCard?.Text}
-              rows={4}
-              fullWidth
-              variant="standard"
-            />
-            <br />
-            <br />
-            <div style={{ display: "flex", marginTop: "10px" }}>
-              <label>Color:&nbsp;</label>
-              <input
-                name="color"
-                onChange={handleChange}
-                value={addCard?.color}
-                type="color"
-                // defaultValue="#ff0000"
-                style={{ width: "100%" }}
-              />
-            </div>
-            <br />
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <label>Fonts:</label>&nbsp;
-              <select
-                style={{
-                  backgroundColor: "#f0f8ff",
-                  width: "100%",
-                  height: "40px",
-                }}
-                name="stylefont"
-                onChange={handleChange}
-                value={addCard?.stylefont}
-              >
-                <option>Roboto</option>
-                <option>Open Sans</option>
-                <option>Ubuntu</option>
-              </select>
-            </div>
-            <br />
+            {(!currentId || !currentId?.includes(ADD_TASK)) && (
+              <>
+                <div style={{ display: "flex", marginTop: "10px" }}>
+                  <label>fontColor:&nbsp;</label>
+                  <input
+                    name="fontColor"
+                    onChange={handleChange}
+                    value={addCard?.fontColor}
+                    type="color"
+                    // defaultValue="#ff0000"
+                    style={{ width: "100%" }}
+                  />
+                </div>
+                <br />
+                <br />
+                <TextField
+                  sx={{ backgroundColor: "#f0f8ff" }}
+                  id="filled-multiline-static"
+                  label="Description"
+                  multiline
+                  name="Text"
+                  onChange={handleChange}
+                  value={addCard?.Text}
+                  rows={4}
+                  fullWidth
+                  variant="standard"
+                />
+                <br />
+                <br />
+                <div style={{ display: "flex", marginTop: "10px" }}>
+                  <label>backgroundColor:&nbsp;</label>
+                  <input
+                    name="color"
+                    onChange={handleChange}
+                    value={addCard?.color}
+                    type="color"
+                    // defaultValue="#ff0000"
+                    style={{ width: "100%" }}
+                  />
+                </div>
+                <br />
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <label>Fonts:</label>&nbsp;
+                  <select
+                    style={{
+                      backgroundColor: "#f0f8ff",
+                      width: "100%",
+                      height: "40px",
+                    }}
+                    name="stylefont"
+                    onChange={handleChange}
+                    value={addCard?.stylefont}
+                  >
+                    <option>Roboto</option>
+                    <option>Open Sans</option>
+                    <option>Ubuntu</option>
+                  </select>
+                </div>
+                <br />{" "}
+              </>
+            )}
             <div style={{ textAlign: "center" }}>
               <Button
                 variant="contained"
@@ -182,7 +201,11 @@ export default function KeepMountedModal({
                 onClick={handleSubmit}
                 sx={{ width: "50px" }}
               >
-                {currentId ? "EDIT" : "SAVE"}
+                {currentId
+                  ? currentId.includes(ADD_TASK)
+                    ? "Add"
+                    : "Edit"
+                  : "Add"}
               </Button>
             </div>
           </Box>
