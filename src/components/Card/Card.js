@@ -9,14 +9,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { DELETE_POST } from "../../store/action/PostAction";
 import moment from "moment/moment";
 
-export default function Card({
-  isMobile,
-  show,
-  free,
-  setShowAddCard,
-  setcurrentId,
-}) {
-  const Cards = useSelector((state) => state);
+export default function Card({isMobile,show,free,setShowAddCard,setcurrentId,searchPosts,setsearchPosts})
+ {
+  const Cards = useSelector((state) =>
+  searchPosts ? state.filter((post) => post.title.toLowerCase().includes(searchPosts) || post.Text.toLowerCase().includes(searchPosts)): state);
+
+  
   const [isDrag, setisDrag] = useState(true);
   const dispatch = useDispatch();
   console.log(Cards);
@@ -26,7 +24,7 @@ export default function Card({
         display: "flex",
         flexWrap: "wrap",
         paddingTop: "50px",
-        height: "250vh",
+        height: "100vh",
         width: window.innerWidth,
         position: "relative",
         // overflow: "hidden",
@@ -68,7 +66,7 @@ export default function Card({
               width: "auto",
               height: "auto",
               maxWidth: isMobile ? "280px" : "330px",
-              maxHeight: "330px",
+              maxHeight: "250px",
               backgroundColor: card?.color,
               fontFamily: card.stylefont,
             }}

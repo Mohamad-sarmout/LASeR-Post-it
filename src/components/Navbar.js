@@ -5,10 +5,13 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { Paper } from "@mui/material";
 import { IconButton } from "@mui/material";
 
-function Navbar({ isMobile, show, setshow }) {
+function Navbar({ isMobile, show, setshow, setsearchPosts }) {
   console.log(show);
+  const handleSearch = (e) => {
+    setsearchPosts(e.target.value)
+  }
   return (
-    <div className="flex">
+    <div className="flex" style={{position:"fixed"}}>
       <span>
         {isMobile && !show && (
           <IconButton onClick={() => setshow(!show)}>
@@ -39,9 +42,9 @@ function Navbar({ isMobile, show, setshow }) {
           name="search"
           placeholder="Search..."
           type="text"
-          onChange={(e) => console.log({ [e.target.name]: e.target.value })}
+          onChange={handleSearch}
         />{" "}
-        <IconButton type="submit" sx={{ color: "#68E1FD" }}>
+        <IconButton type="submit"  sx={{ color: "#68E1FD" }}>
           <SearchIcon />
         </IconButton>
       </Paper>

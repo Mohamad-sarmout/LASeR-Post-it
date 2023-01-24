@@ -11,9 +11,10 @@ function Home() {
   const isMobile = useMediaQuery("(max-width:900px)");
   const [showAddCard, setShowAddCard] = useState(false);
   const [currentId, setcurrentId] = useState(null);
+  const [searchPosts, setsearchPosts] = useState(null)
   return (
     <div style={{ backgroundColor: "#EBEBF0" }} className="Wrap">
-      <Navbar isMobile={isMobile} show={show} setshow={setshow} />
+      <Navbar isMobile={isMobile} show={show} setshow={setshow} setsearchPosts={setsearchPosts}/>
       <h1
         style={{
           position: "relative",
@@ -39,6 +40,8 @@ function Home() {
           setShowAddCard={setShowAddCard}
           currentId={currentId}
           setcurrentId={setcurrentId}
+          searchPosts={searchPosts}
+          setsearchPosts={setsearchPosts}
         />
       </div>
       <AddCard
