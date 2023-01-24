@@ -4,13 +4,15 @@ import AllInboxIcon from "@mui/icons-material/AllInbox";
 import Favorite from "@mui/icons-material/Favorite";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { IconButton, Switch } from "@mui/material";
-import { Box, width } from "@mui/system";
+import { Box } from "@mui/system";
 import { styled } from "@mui/material/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { NavLink } from "react-router-dom";
 import classes from "./Sidebar.module.css";
+import { useState } from "react";
 
 const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
+  const [isOn, setisOn] = useState(false);
   const Root = styled(Box)(({ theme }) => ({
     zIndex: "30",
     [theme.breakpoints.down("md")]: {
@@ -37,9 +39,14 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
 
           <Switch
             {...label}
-            onChange={(e) => setfreeMode(e.target.checked)}
+            checked={isOn}
+            onClick={(e) => {
+              setfreeMode(e.target.checked);
+              setisOn(e.target.checked);
+            }}
             title="Switch for free mode"
           />
+
           {isMobile && (
             <IconButton 
               onClick={() => setshow(!show)}
@@ -50,7 +57,7 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
           )}
         </div>
         <NavLink
-          to="/i"
+          to="/"
           className={classes.link}
           style={({ isActive }) =>
             isActive ? { background: "rgb(165, 164, 164)" } : undefined
