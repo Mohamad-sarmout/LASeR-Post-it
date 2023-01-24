@@ -4,6 +4,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Paper } from "@mui/material";
 import { IconButton } from "@mui/material";
 import ReactSwitch from "react-switch";
+import { Link } from "react-router-dom";
+import { color } from "@mui/system";
 
 function Navbar({
   isMobile,
@@ -19,14 +21,14 @@ function Navbar({
   };
   return (
     <div className="flex" style={{ position: "fixed" }}>
-      <span>
+      <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
         {isMobile && !show && (
           <IconButton onClick={() => setshow(!show)}>
             <MenuIcon sx={{ mb: "-6px", mr: "5px" }} />
           </IconButton>
         )}
         Post it App
-      </span>
+      </Link>
       <Paper
         component="form"
         sx={{

@@ -1,5 +1,5 @@
 import { IconButton } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Draggable from "react-draggable";
 import "./Card.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -9,6 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_TASK, DELETE_POST } from "../../store/action/PostAction";
 import moment from "moment/moment";
+import { useLocation } from "react-router";
 
 export default function Card({
   isMobile,
@@ -19,15 +20,23 @@ export default function Card({
   searchPosts,
   setsearchPosts,
 }) {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const isSearch = queryParams.get("search");
+  useEffect(() => {
+    setsearchPosts(isSearch);
+  }, [isSearch]);
+  console.log(isSearch);
   const Cards = useSelector((state) =>
     searchPosts
       ? state.filter(
           (post) =>
             post.title.toLowerCase().includes(searchPosts) ||
-            post.Text.toLowerCase().includes(searchPosts)
+            post.Text.some((text) => text.toLowerCase().includes(searchPosts))
         )
       : state
   );
+  console.log(Cards);
 
   const [isDrag, setisDrag] = useState(true);
   const dispatch = useDispatch();
@@ -43,11 +52,12 @@ export default function Card({
         // overflow: "hidden",
         padding: "0px",
         marginLeft: isMobile ? (show ? "70px" : "0px") : "200px",
-        marginTop: "70px",
+        marginTop: "140px",
       }}
     >
-      {Cards.map((card) => (
+      {Cards.map((card, index) => (
         <Draggable
+          key={index}
           // cancel="true"
           disabled={free && isDrag ? (isMobile ? false : false) : true}
           axis="both"
@@ -56,7 +66,7 @@ export default function Card({
             setisDrag(true);
           }}
           onStop={() => {
-            setisDrag(false);
+            // setisDrag(false);
           }}
           onDrag={() => console.log("drag")}
           onMouseDown={() => {
@@ -111,12 +121,12 @@ export default function Card({
             <div>
               {card.Text.length > 1
                 ? card?.Text?.map((task, index) => (
-                    <p>
+                    <p key={index}>
                       {index + 1}:{task} <br></br>
                     </p>
                   ))
                 : card?.Text?.map((task, index) => (
-                    <p>
+                    <p key={index}>
                       {task} <br></br>
                     </p>
                   ))}

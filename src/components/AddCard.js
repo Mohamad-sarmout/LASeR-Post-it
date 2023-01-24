@@ -186,9 +186,9 @@ export default function KeepMountedModal({
                     onChange={handleChange}
                     value={addCard?.stylefont}
                   >
-                    <option>Roboto</option>
-                    <option>Open Sans</option>
-                    <option>Ubuntu</option>
+                    <option value="Roboto">Roboto</option>
+                    <option value="Open Sans">Open Sans</option>
+                    <option value="Ubuntu">Ubuntu</option>
                   </select>
                 </div>
                 <br />{" "}

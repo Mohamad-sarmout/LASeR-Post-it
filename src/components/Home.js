@@ -32,7 +32,7 @@ function Home() {
         <h1
           style={{
             position: "relative",
-            top: "10px",
+            top: "70px",
             left: isMobile ? (show ? "4rem" : "3rem") : "250px",
           }}
         >
