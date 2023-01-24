@@ -1,24 +1,29 @@
 .getStarted {
     background-color: #EBEBF0;
-    margin-top: -20px;
     text-align: center;
+    height: 100vh;
+   
 }
 .arrangeImg {
     max-width: 100%;
 }
 .title {
+    text-align: center;
     color: #222A72;
 }
 
-.btn {
+.btnn {
     color: #FFFFFF;
     font-weight: 700;
+    font-size: 24px;
     background-color: #68E1FD;
-    padding: 10px 30px;
-    border-radius: 12px;
+    padding: 20px 50px;
+    border-radius: 25px;
     border: none;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-top: 40px;
+    text-align: center;
+    width: 20rem;
 }
 
 .leftEllipse {

@@ -1,14 +1,24 @@
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { Paper } from "@mui/material";
 import { IconButton } from "@mui/material";
+import ReactSwitch from "react-switch";
 
-function Navbar({ isMobile, show, setshow }) {
+function Navbar({
+  isMobile,
+  show,
+  setshow,
+  setsearchPosts,
+  theme,
+  toggleTheme,
+}) {
   console.log(show);
+  const handleSearch = (e) => {
+    setsearchPosts(e.target.value);
+  };
   return (
-    <div className="flex">
+    <div className="flex" style={{ position: "fixed" }}>
       <span>
         {isMobile && !show && (
           <IconButton onClick={() => setshow(!show)}>
@@ -17,7 +27,6 @@ function Navbar({ isMobile, show, setshow }) {
         )}
         Post it App
       </span>
-      {/* <form> */}
       <Paper
         component="form"
         sx={{
@@ -39,16 +48,24 @@ function Navbar({ isMobile, show, setshow }) {
           name="search"
           placeholder="Search..."
           type="text"
+          onChange={handleSearch}
           style={{ width: "80%" }}
-          onChange={(e) => console.log({ [e.target.name]: e.target.value })}
         />{" "}
-        <IconButton type="submit" sx={{ color: "#68E1FD" }}>
+        <IconButton
+          type="submit"
+          sx={{ color: "#68E1FD" }}
+          className="searchIcon"
+        >
           <SearchIcon />
         </IconButton>
       </Paper>
-      {/* </form> */}
-      <span>
-        <Brightness4Icon />
+      <span style={{ display: "flex", alignItems: "center" }}>
+        <label> {theme === "light" ? "Light Mode" : "Dark Mode"}</label>&nbsp;
+        <ReactSwitch
+          onChange={toggleTheme}
+          checked={theme === "dark"}
+          onColor="#296fe6"
+        />
       </span>
     </div>
   );

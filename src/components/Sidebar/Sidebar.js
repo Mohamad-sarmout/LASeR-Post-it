@@ -4,16 +4,15 @@ import AllInboxIcon from "@mui/icons-material/AllInbox";
 import Favorite from "@mui/icons-material/Favorite";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { IconButton, Switch } from "@mui/material";
-import { Box, width } from "@mui/system";
+import { Box } from "@mui/system";
 import { styled } from "@mui/material/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { NavLink } from "react-router-dom";
 import classes from "./Sidebar.module.css";
-import { InboxOutlined } from "@mui/icons-material";
 import { useState } from "react";
+
 const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
   const [isOn, setisOn] = useState(false);
-  console.log(show);
   const Root = styled(Box)(({ theme }) => ({
     zIndex: "30",
     [theme.breakpoints.down("md")]: {
@@ -24,20 +23,20 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
       width: "180px",
     },
   }));
-  console.log(show);
   const label = { inputProps: { "aria-label": "switch mode" } };
 
   return (
     <>
-      <IconButton
+      <IconButton 
         sx={{ mt: "-100px", ml: "-33px", width: "300px" }}
         onClick={() => setshow(!show)}
       >
         <MenuIcon />
       </IconButton>
-      <Root className={classes.flex}>
+      <Root className={classes.flex} id="sidebar">
         <div className={classes.start}>
           {/* <div> */}
+
           <Switch
             {...label}
             checked={isOn}
@@ -49,14 +48,13 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
           />
 
           {isMobile && (
-            <IconButton
+            <IconButton 
               onClick={() => setshow(!show)}
               sx={{ display: { md: "none", lg: "none" } }}
             >
               <ChevronLeftIcon />
             </IconButton>
           )}
-          {/* </div> */}
         </div>
         <NavLink
           to="/"
@@ -65,8 +63,8 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
             isActive ? { background: "rgb(165, 164, 164)" } : undefined
           }
         >
-          <AllInboxIcon />
-          {!isMobile && <span>All Posts</span>}
+          <AllInboxIcon className="icons" />
+          {!isMobile && <span className="text">All Posts</span>}
         </NavLink>
         <Divider />
         <NavLink
@@ -76,7 +74,7 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
             isActive ? { background: "rgb(165, 164, 164)" } : undefined
           }
         >
-          <Favorite /> {!isMobile && <span>Favorite</span>}
+          <Favorite className="icons" /> {!isMobile && <span className="text">Favorite</span>}
         </NavLink>
         <Divider />
         <NavLink
@@ -86,11 +84,11 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
             isActive ? { background: "rgb(165, 164, 164)" } : undefined
           }
         >
-          <DeleteOutlineIcon />
-          {!isMobile && <span>Trash</span>}
+          <DeleteOutlineIcon className="icons" />
+          {!isMobile && <span className="text">Trash</span>}
         </NavLink>
+        
         <Divider />
-
         <Divider />
       </Root>
     </>

@@ -1,5 +1,5 @@
-import { Divider, Grid, IconButton } from "@mui/material";
-import React, { useRef, useState } from "react";
+import { IconButton } from "@mui/material";
+import React, { useState } from "react";
 import Draggable from "react-draggable";
 import "./Card.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -9,21 +9,26 @@ import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_TASK, DELETE_POST } from "../../store/action/PostAction";
 import moment from "moment/moment";
-const tasks = [
-  "wake up early",
-  "make your bed",
-  "brush your teeth",
-  "got to school",
-  "meet my friends",
-];
+
 export default function Card({
   isMobile,
   show,
   free,
   setShowAddCard,
   setcurrentId,
+  searchPosts,
+  setsearchPosts,
 }) {
-  const Cards = useSelector((state) => state);
+  const Cards = useSelector((state) =>
+    searchPosts
+      ? state.filter(
+          (post) =>
+            post.title.toLowerCase().includes(searchPosts) ||
+            post.Text.toLowerCase().includes(searchPosts)
+        )
+      : state
+  );
+
   const [isDrag, setisDrag] = useState(true);
   const dispatch = useDispatch();
   return (
@@ -82,10 +87,11 @@ export default function Card({
                 <h6>{moment(card?.date).fromNow()}</h6>
               </div>
               <div>
-                <IconButton>
+                <IconButton className="icons">
                   <FavoriteBorderIcon />
                 </IconButton>
                 <IconButton
+                  className="icons"
                   onClick={() =>
                     dispatch({ type: DELETE_POST, value: card.id })
                   }
@@ -117,6 +123,7 @@ export default function Card({
             </div>
             <div style={{ textAlign: "end" }}>
               <IconButton
+                className="icons"
                 onClick={() => {
                   setcurrentId(ADD_TASK + card?.id);
                   setShowAddCard((prevState) => !prevState);
