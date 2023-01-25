@@ -33,7 +33,7 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode, toggleTheme,theme
         sx={{ mt: "-100px", ml: "-33px", width: "300px" }}
         onClick={() => setshow(!show)}
       >
-        <MenuIcon />
+        <MenuIcon/>
       </IconButton>
       <Root className={classes.flex} id="sidebar">
         
@@ -51,6 +51,7 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode, toggleTheme,theme
           />
           {isMobile && (
             <IconButton 
+            className="icons"
               onClick={() => setshow(!show)}
               sx={{ display: { md: "none", lg: "none" } }}
             >
@@ -93,8 +94,8 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode, toggleTheme,theme
         <Divider />
         <Divider />
        
-    <span style={{ marginTop:"50px"}}>
-        <label className="text"> <span>{theme === "light" ? "Light Mode" : "Dark Mode"}</span>
+    <span style={{display:"flex", justifyContent:"center", marginTop:"50px",marginLeft:"-12px"}}>
+        <label className="text"> {theme === "light" ? "Light Mode" : "Dark Mode"}
         <Switch
           onChange={toggleTheme}
           checked={theme === "dark"}

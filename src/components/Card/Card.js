@@ -29,12 +29,12 @@ export default function Card({
   console.log(isSearch);
   const Cards = useSelector((state) =>
     searchPosts
-      ? state.filter(
+      ? state.post.filter(
           (post) =>
             post.title.toLowerCase().includes(searchPosts) ||
             post.Text.some((text) => text.toLowerCase().includes(searchPosts))
         )
-      : state
+      : state.post
   );
   console.log(Cards);
 
@@ -109,6 +109,7 @@ export default function Card({
                   <DeleteIcon />
                 </IconButton>
                 <IconButton
+                  className="icons"
                   onClick={() => {
                     setcurrentId(card.id);
                     setShowAddCard((prevState) => !prevState);
