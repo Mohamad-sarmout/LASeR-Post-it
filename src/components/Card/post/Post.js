@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Draggable from "react-draggable";
 import "../Card.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import RestoreIcon  from "@mui/icons-material/Restore";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -92,12 +91,10 @@ const Post = ({ isMobile, setcurrentId, setShowAddCard, card, index, free,}) => 
             <h3>{card.title}</h3>
             <h6>{moment(card?.date).fromNow()}</h6>
           </div>
-          <div>
-            {!inHome  &&            
+          <div>           
             <IconButton className="icons" onClick={handleAll.bind(null,card)}>
               { (inHome === "favorite" || isActive) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </IconButton>
-            }
             {inHome === "trash" &&
             <IconButton onClick={handleRestore.bind(null,card)}>
               <RestoreIcon/>

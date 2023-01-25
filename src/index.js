@@ -8,6 +8,7 @@ import { combineReducers, createStore } from "redux";
 import { Provider } from "react-redux";
 import postreducer from "./store/reducer/PostReducer";
 import trashreducer from "./store/reducer/TrashReducer";
+import favoritepostreducer from "./store/reducer/FavoritePostReducer";
 
 const store = createStore(
   combineReducers({
