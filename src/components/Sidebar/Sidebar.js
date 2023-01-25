@@ -10,8 +10,9 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { NavLink } from "react-router-dom";
 import classes from "./Sidebar.module.css";
 import { useState } from "react";
-
-const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+// import ReactSwitch from "react-switch";
+const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode, toggleTheme,theme }) => {
   const [isOn, setisOn] = useState(false);
   const Root = styled(Box)(({ theme }) => ({
     zIndex: "30",
@@ -27,6 +28,7 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
 
   return (
     <>
+ 
       <IconButton 
         sx={{ mt: "-100px", ml: "-33px", width: "300px" }}
         onClick={() => setshow(!show)}
@@ -34,9 +36,10 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
         <MenuIcon />
       </IconButton>
       <Root className={classes.flex} id="sidebar">
+        
         <div className={classes.start}>
           {/* <div> */}
-
+     
           <Switch
             {...label}
             checked={isOn}
@@ -46,7 +49,6 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
             }}
             title="Switch for free mode"
           />
-
           {isMobile && (
             <IconButton 
               onClick={() => setshow(!show)}
@@ -90,6 +92,18 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
         
         <Divider />
         <Divider />
+       
+    <span style={{ marginTop:"50px"}}>
+        <label className="text"> <span>{theme === "light" ? "Light Mode" : "Dark Mode"}</span>
+        <Switch
+          onChange={toggleTheme}
+          checked={theme === "dark"}
+          onColor="#296fe6"
+          checkedIcon={<DarkModeIcon fontSize="medium"/>}        
+          />
+          </label>
+      </span>
+      
       </Root>
     </>
   );
