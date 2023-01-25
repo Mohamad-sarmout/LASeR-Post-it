@@ -1,32 +1,24 @@
-const initstate = [
-    {
-        id: "1",
-        title: "LEssons",
-        Text: ["lessons"],
-        date: "2023-11-11",
-        color: "#3B6C9C",
-        fontColor: "#ffff",
-        stylefont: "roboto",
-      },
-      {
-        id: "2",
-        title: "todo",
-        Text: ["lessons"],
-        date: "2023-11-11",
-        color: "#3B6C9C",
-        fontColor: "#ffff",
-        stylefont: "roboto",
-      },
-];
+import { FAV_POST, REV_POST } from "../action/FavoriteAction";
 
-
-
+const initstate = [];
 
 
 
 const favoritepostreducer = (state = initstate,action) => {
-    console.log(state);
-    return state
+  switch (action.type) {
+    case FAV_POST:
+      console.log("hello");
+      const clone = [...state];
+      clone.push(action.value);
+      return clone;
+    case REV_POST:
+      console.log("delete");
+      const copy = [...state];
+      const arr = copy.filter((post) => post.id !== action.value);
+      return arr;
+    default:
+      return state;
+  }
 }
 
 export default favoritepostreducer
