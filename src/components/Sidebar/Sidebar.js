@@ -68,7 +68,7 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
         </NavLink>
         <Divider />
         <NavLink
-          to="/f"
+          to="Favorite"
           className={classes.link}
           style={({ isActive }) =>
             isActive ? { background: "rgb(165, 164, 164)" } : undefined
@@ -78,7 +78,7 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
         </NavLink>
         <Divider />
         <NavLink
-          to="/d"
+          to="Trash"
           className={classes.link}
           style={({ isActive }) =>
             isActive ? { background: "rgb(165, 164, 164)" } : undefined

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Draggable from "react-draggable";
 import "./Card.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
@@ -10,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { ADD_TASK, DELETE_POST } from "../../store/action/PostAction";
 import moment from "moment/moment";
 import { useLocation } from "react-router";
+import Post from "../post/Post";
+
 
 export default function Card({
   isMobile,
@@ -34,12 +37,13 @@ export default function Card({
             post.title.toLowerCase().includes(searchPosts) ||
             post.Text.some((text) => text.toLowerCase().includes(searchPosts))
         )
-      : state
+      : state.post
   );
   console.log(Cards);
 
   const [isDrag, setisDrag] = useState(true);
   const dispatch = useDispatch();
+
   return (
     <div
       style={{
@@ -73,9 +77,9 @@ export default function Card({
             setisDrag(true);
           }}
         >
-          <div
+        <div
             onClick={() => {
-              setisDrag(true);
+            //   setisDrag(true);
             }}
             className="Card"
             key={card}
@@ -91,57 +95,7 @@ export default function Card({
               fontFamily: card.stylefont,
             }}
           >
-            <div className="row">
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <h3>{card.title}</h3>
-                <h6>{moment(card?.date).fromNow()}</h6>
-              </div>
-              <div>
-                <IconButton className="icons">
-                  <FavoriteBorderIcon />
-                </IconButton>
-                <IconButton
-                  className="icons"
-                  onClick={() =>
-                    dispatch({ type: DELETE_POST, value: card.id })
-                  }
-                >
-                  <DeleteIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => {
-                    setcurrentId(card.id);
-                    setShowAddCard((prevState) => !prevState);
-                  }}
-                >
-                  <EditIcon />
-                </IconButton>
-              </div>
-            </div>
-            <div>
-              {card.Text.length > 1
-                ? card?.Text?.map((task, index) => (
-                    <p key={index}>
-                      {index + 1}:{task} <br></br>
-                    </p>
-                  ))
-                : card?.Text?.map((task, index) => (
-                    <p key={index}>
-                      {task} <br></br>
-                    </p>
-                  ))}
-            </div>
-            <div style={{ textAlign: "end" }}>
-              <IconButton
-                className="icons"
-                onClick={() => {
-                  setcurrentId(ADD_TASK + card?.id);
-                  setShowAddCard((prevState) => !prevState);
-                }}
-              >
-                <AddIcon />
-              </IconButton>
-            </div>
+          <Post card={card} isMobile={isMobile} setcurrentId={setcurrentId} setShowAddCard={setShowAddCard}/>
           </div>
         </Draggable>
       ))}

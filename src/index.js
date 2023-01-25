@@ -4,12 +4,21 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import { createStore } from "redux";
+import { combineReducers, createStore } from "redux";
 import postreducer from "./store/reducer/PostReducer";
 import { Provider } from "react-redux";
+import favoritepostreducer from "./store/reducer/FavoritePostReducer";
 
 
-const store = createStore(postreducer);
+
+const rootReducer = combineReducers({
+
+    post: postreducer,
+    favorite: favoritepostreducer
+    
+
+})
+const store = createStore(rootReducer);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>

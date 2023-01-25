@@ -35,7 +35,7 @@ export default function KeepMountedModal({
   });
   const dispatch = useDispatch();
   const currentPost = useSelector((state) =>
-    currentId ? state.find((post) => post.id === currentId) : null
+    currentId ? state.post.find((post) => post.id === currentId) : null
   );
   console.log(currentPost);
   const handleChange = (event) => {
