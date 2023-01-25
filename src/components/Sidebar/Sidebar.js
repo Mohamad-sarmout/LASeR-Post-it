@@ -27,7 +27,7 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
 
   return (
     <>
-      <IconButton 
+      <IconButton
         sx={{ mt: "-100px", ml: "-33px", width: "300px" }}
         onClick={() => setshow(!show)}
       >
@@ -48,7 +48,7 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
           />
 
           {isMobile && (
-            <IconButton 
+            <IconButton
               onClick={() => setshow(!show)}
               sx={{ display: { md: "none", lg: "none" } }}
             >
@@ -57,7 +57,8 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
           )}
         </div>
         <NavLink
-          to="/"
+          end
+          to="/Home"
           className={classes.link}
           style={({ isActive }) =>
             isActive ? { background: "rgb(165, 164, 164)" } : undefined
@@ -68,17 +69,18 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
         </NavLink>
         <Divider />
         <NavLink
-          to="/f"
+          to="/Home/favorite"
           className={classes.link}
           style={({ isActive }) =>
             isActive ? { background: "rgb(165, 164, 164)" } : undefined
           }
         >
-          <Favorite className="icons" /> {!isMobile && <span className="text">Favorite</span>}
+          <Favorite className="icons" />{" "}
+          {!isMobile && <span className="text">Favorite</span>}
         </NavLink>
         <Divider />
         <NavLink
-          to="/d"
+          to="/Home/trash"
           className={classes.link}
           style={({ isActive }) =>
             isActive ? { background: "rgb(165, 164, 164)" } : undefined
@@ -87,7 +89,7 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
           <DeleteOutlineIcon className="icons" />
           {!isMobile && <span className="text">Trash</span>}
         </NavLink>
-        
+
         <Divider />
         <Divider />
       </Root>

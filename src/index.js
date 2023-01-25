@@ -4,12 +4,12 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import { createStore } from "redux";
+import { combineReducers, createStore } from "redux";
 import postreducer from "./store/reducer/PostReducer";
 import { Provider } from "react-redux";
 
-
-const store = createStore(postreducer);
+const reducer = combineReducers({ post: postreducer });
+const store = createStore(reducer);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
@@ -17,7 +17,7 @@ root.render(
     <BrowserRouter>
       <App />
     </BrowserRouter>
-    </Provider>
+  </Provider>
   // </React.StrictMode>
 );
 
