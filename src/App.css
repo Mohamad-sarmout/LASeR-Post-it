@@ -1,38 +1,120 @@
-.App {
-  text-align: center;
+body {
+  font-family: "Open Sans";
+  font-size: 20px;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #ebebf0;
+  color: #222a72;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* flex Navbar */
+.flex {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  background-color: #68e1fd;
+  height: 70px;
+  align-items: center;
+  color: #222a72;
+  z-index: 40;
+  width: 100%;
+}
+/* Search input */
+.search-bar {
+  border: none;
+  outline: none;
+  color: #282c34;
+  width: 80%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.Wrap {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  overflow-x: hidden;
+}
+.add {
+  position: fixed;
+  font: 1em sans-serif;
+  text-align: center;
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  font-size: xx-large;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  background-color: #68e1fd;
+  cursor: pointer;
+}
+.add:active {
+  box-shadow: 0 0 10px #68e1fd;
 }
 
-.App-link {
-  color: #61dafb;
+.Main {
+  display: flex;
+  flex-direction: row;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.SideBar {
+  width: 200px;
+  /* height: 100vh; */
+  background-color: #68e1fd;
+}
+
+.add {
+  position: fixed;
+  font: 1em sans-serif;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: xx-large;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  background-color: #68e1fd;
+  cursor: pointer;
+}
+.add:active {
+  box-shadow: 0 0 10px #68e1fd;
+}
+
+#dark .flex {
+  background-color: #1b1a19;
+}
+
+#dark .add {
+  background-color: #296fe6;
+  color: #000;
+}
+#dark .flex {
+  background: #000;
+  color: #fff;
+}
+
+#dark .Card {
+  background-color: #252423;
+  color: #fff;
+  border-color: #000;
+}
+#dark .searchIcon {
+  color: #296fe6;
+}
+
+#dark .icons {
+  color: #fff;
+}
+#dark .text {
+  color: #fff;
+}
+
+#dark #sidebar {
+  background-color: #252423;
 }
