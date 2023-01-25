@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Draggable from "react-draggable";
 import "../Card.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import RestoreIcon  from "@mui/icons-material/Restore";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
@@ -10,6 +12,7 @@ import { useDispatch } from "react-redux";
 import moment from "moment/moment";
 import { DELETE_POST, ADD_TASK } from "../../../store/action/PostAction";
 import { useLocation } from "react-router";
+import { FAV_POST, REV_POST } from "../../../store/action/FavoriteAction";
 const Post = ({
   isMobile,
   setcurrentId,
@@ -20,16 +23,29 @@ const Post = ({
 }) => {
   const dispatch = useDispatch();
   const [isDrag, setisDrag] = useState(true);
+  const [isActive, setisActive] = useState(false);
   const location = useLocation();
-  const inHome = location.pathname.split("/")[1].toString();
+  const inHome = location.pathname.split("/")[2]?.toLocaleLowerCase();
   console.log(inHome);
-  if (inHome === "Favorite") {
-    console.log("fav");
-  } else if (inHome == "Trash") {
-    console.log("trash");
-  } else {
-    console.log("All posts");
-  }
+
+ const handleAll = (card) => {
+    if (inHome == "favorite") {
+      console.log(inHome);
+      setisActive(false);
+      dispatch({ type: REV_POST, value: card.id });
+
+    } else if (inHome == "trash") {
+      console.log(inHome);
+    } else {
+      if (isActive) {
+        setisActive(false);
+        dispatch({type:REV_POST,value:card.id});
+      } else {
+        setisActive(true);
+        dispatch({type:FAV_POST,value:card});
+      }
+    }
+  };
   return (
     <Draggable
       key={index}
@@ -72,15 +88,20 @@ const Post = ({
             <h6>{moment(card?.date).fromNow()}</h6>
           </div>
           <div>
-            <IconButton className="icons">
-              <FavoriteBorderIcon />
+            <IconButton className="icons" onClick={handleAll.bind(null, card)}>
+            { (inHome === "favorite" || isActive) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </IconButton>
+            {inHome === "trash" &&  
+            <IconButton>
+            <RestoreIcon/>
+            </IconButton>}
             <IconButton
               className="icons"
               onClick={() => dispatch({ type: DELETE_POST, value: card.id })}
             >
               <DeleteIcon />
             </IconButton>
+            {!inHome && 
             <IconButton
               onClick={() => {
                 setcurrentId(card.id);
@@ -88,7 +109,7 @@ const Post = ({
               }}
             >
               <EditIcon />
-            </IconButton>
+            </IconButton>}
           </div>
         </div>
         <div>
@@ -105,6 +126,7 @@ const Post = ({
               ))}
         </div>
         <div style={{ textAlign: "end" }}>
+        {!inHome && 
           <IconButton
             className="icons"
             onClick={() => {
@@ -113,7 +135,7 @@ const Post = ({
             }}
           >
             <AddIcon />
-          </IconButton>
+          </IconButton>}
         </div>
       </div>
     </Draggable>

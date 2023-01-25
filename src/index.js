@@ -7,8 +7,9 @@ import { BrowserRouter } from "react-router-dom";
 import { combineReducers, createStore } from "redux";
 import postreducer from "./store/reducer/PostReducer";
 import { Provider } from "react-redux";
+import favoritepostreducer from "./store/reducer/FavoritePostReducer";
 
-const reducer = combineReducers({ post: postreducer });
+const reducer = combineReducers({ post: postreducer, favorite: favoritepostreducer });
 const store = createStore(reducer);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
