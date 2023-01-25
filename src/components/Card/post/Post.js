@@ -10,17 +10,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch } from "react-redux";
 import moment from "moment/moment";
-import { DELETE_POST, ADD_TASK } from "../../../store/action/PostAction";
+import { DELETE_POST, ADD_TASK, ADD_POST } from "../../../store/action/PostAction";
 import { useLocation } from "react-router";
+import { ADD_POST_TO_TRASH, DELETE_PERMANENTLY } from "../../../store/action/TrashAction";
 import { FAV_POST, REV_POST } from "../../../store/action/FavoriteAction";
-const Post = ({
-  isMobile,
-  setcurrentId,
-  setShowAddCard,
-  card,
-  index,
-  free,
-}) => {
+import  RestoreIcon from "@mui/icons-material/Restore";
+
+
+const Post = ({ isMobile, setcurrentId, setShowAddCard, card, index, free,}) => {
   const dispatch = useDispatch();
   const [isDrag, setisDrag] = useState(true);
   const [isActive, setisActive] = useState(false);
@@ -36,6 +33,7 @@ const Post = ({
 
     } else if (inHome == "trash") {
       console.log(inHome);
+      dispatch({type:DELETE_PERMANENTLY,value:card.id})
     } else {
       if (isActive) {
         setisActive(false);
@@ -44,8 +42,15 @@ const Post = ({
         setisActive(true);
         dispatch({type:FAV_POST,value:card});
       }
+      dispatch({type:DELETE_POST, value:card.id})
+      dispatch({type:ADD_POST_TO_TRASH,value:card})
     }
-  };
+  }
+  const handleRestore = (card) => {
+    dispatch({type:ADD_POST,value:card})
+    dispatch({type:DELETE_PERMANENTLY, value:card.id})
+   }
+
   return (
     <Draggable
       key={index}
@@ -88,20 +93,22 @@ const Post = ({
             <h6>{moment(card?.date).fromNow()}</h6>
           </div>
           <div>
-            <IconButton className="icons" onClick={handleAll.bind(null, card)}>
-            { (inHome === "favorite" || isActive) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            {!inHome  &&            
+            <IconButton className="icons" onClick={handleAll.bind(null,card)}>
+              { (inHome === "favorite" || isActive) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </IconButton>
-            {inHome === "trash" &&  
-            <IconButton>
-            <RestoreIcon/>
+            }
+            {inHome === "trash" &&
+            <IconButton onClick={handleRestore.bind(null,card)}>
+              <RestoreIcon/>
             </IconButton>}
             <IconButton
               className="icons"
-              onClick={() => dispatch({ type: DELETE_POST, value: card.id })}
+              onClick={handleAll.bind(null,card)}
             >
               <DeleteIcon />
             </IconButton>
-            {!inHome && 
+            {!inHome &&
             <IconButton
               onClick={() => {
                 setcurrentId(card.id);
@@ -109,7 +116,9 @@ const Post = ({
               }}
             >
               <EditIcon />
-            </IconButton>}
+          </IconButton>
+      } 
+
           </div>
         </div>
         <div>
@@ -126,7 +135,7 @@ const Post = ({
               ))}
         </div>
         <div style={{ textAlign: "end" }}>
-        {!inHome && 
+          {!inHome &&
           <IconButton
             className="icons"
             onClick={() => {
@@ -143,3 +152,4 @@ const Post = ({
 };
 
 export default Post;
+

@@ -48,6 +48,8 @@ function Home() {
           isMobile={isMobile}
           setfreeMode={setfreeMode}
           mode={freeMode}
+          theme={theme}
+          toggleTheme={toggleTheme}
         />
         <Routes>
           <Route

@@ -11,7 +11,11 @@ import { NavLink } from "react-router-dom";
 import classes from "./Sidebar.module.css";
 import { useState } from "react";
 
-const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+// import ReactSwitch from "react-switch";
+
+const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode, toggleTheme,theme }) => {
+
   const [isOn, setisOn] = useState(false);
   const Root = styled(Box)(({ theme }) => ({
     zIndex: "30",
@@ -36,7 +40,6 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
       <Root className={classes.flex} id="sidebar">
         <div className={classes.start}>
           {/* <div> */}
-
           <Switch
             {...label}
             checked={isOn}
@@ -48,7 +51,8 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
           />
 
           {isMobile && (
-            <IconButton
+            <IconButton 
+            className="icons"
               onClick={() => setshow(!show)}
               sx={{ display: { md: "none", lg: "none" } }}
             >
@@ -91,7 +95,17 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode }) => {
         </NavLink>
 
         <Divider />
-        <Divider />
+        <Divider />       
+    <span style={{display:"flex", justifyContent:"center", marginTop:"50px",marginLeft:"-5px"}}>
+        <label className="text"> {theme === "light" ? "Light Mode" : "Dark Mode"}
+        <Switch
+          onChange={toggleTheme}
+          checked={theme === "dark"}
+          checkedIcon={<DarkModeIcon fontSize="medium"/>}        
+          />
+          </label>
+      </span>
+      
       </Root>
     </>
   );
