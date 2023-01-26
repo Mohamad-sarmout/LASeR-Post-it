@@ -20,6 +20,7 @@ const Post = ({ isMobile, setcurrentId, setShowAddCard, card, index, free,}) => 
   const dispatch = useDispatch();
   const [isDrag, setisDrag] = useState(true);
   const [isActive, setisActive] = useState(false);
+  const [isActive1, setisActive1] = useState(false);
   const location = useLocation();
   const inHome = location.pathname.split("/")[2]?.toLocaleLowerCase();
   console.log(inHome);
@@ -32,17 +33,30 @@ const Post = ({ isMobile, setcurrentId, setShowAddCard, card, index, free,}) => 
 
     } else if (inHome == "trash") {
       console.log(inHome);
-      dispatch({type:DELETE_PERMANENTLY,value:card.id})
     } else {
       if (isActive) {
         setisActive(false);
         dispatch({type:REV_POST,value:card.id});
-      } else {
+
+      } else{
         setisActive(true);
         dispatch({type:FAV_POST,value:card});
       }
-      dispatch({type:DELETE_POST, value:card.id})
-      dispatch({type:ADD_POST_TO_TRASH,value:card})
+      
+    }
+  }
+  const handleTrash = (card) => {
+    if (inHome == "favorite") {
+      console.log(`From Trash Function`+inHome);
+  
+    } else if (inHome == "trash") {
+      console.log(inHome);
+      dispatch({type:DELETE_PERMANENTLY,value:card.id})
+    } else {
+        dispatch({type:DELETE_POST, value:card.id})
+       dispatch({type:ADD_POST_TO_TRASH,value:card})
+      
+      
     }
   }
   const handleRestore = (card) => {
@@ -101,7 +115,7 @@ const Post = ({ isMobile, setcurrentId, setShowAddCard, card, index, free,}) => 
             </IconButton>}
             <IconButton
               className="icons"
-              onClick={handleAll.bind(null,card)}
+              onClick={handleTrash.bind(null,card)}
             >
               <DeleteIcon />
             </IconButton>
