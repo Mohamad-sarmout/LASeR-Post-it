@@ -20,7 +20,18 @@ function Home() {
     setTheme((curr) => (curr === "light" ? "dark" : "light"));
   };
   const location = useLocation();
-  const inHome = location.pathname.split("/")[2];
+  const inHome = location.pathname.split("/")[2]?.toLocaleLowerCase();
+  // console.log(inHome);
+  if (inHome === "favorite") {
+    // alert(inHome);
+    console.log("b");
+  } else if (inHome == "trash") {
+    // alert(inHome);
+    console.log("c");
+  } else {
+    // alert(inHome);
+    console.log("A");
+  }
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <div style={{ backgroundColor: "#EBEBF0" }} className="Wrap" id={theme}>

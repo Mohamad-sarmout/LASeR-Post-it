@@ -33,7 +33,8 @@ const Post = ({
   return (
     <Draggable
       key={index}
-      // cancel="true"
+      // cancel=".handle"
+      handle=".handle"
       disabled={free && isDrag ? (isMobile ? false : false) : true}
       axis="both"
       bounds="parent"
@@ -66,6 +67,7 @@ const Post = ({
           fontFamily: card.stylefont,
         }}
       >
+        <div className="handle" />
         <div className="row">
           <div style={{ display: "flex", flexDirection: "column" }}>
             <h3>{card.title}</h3>
