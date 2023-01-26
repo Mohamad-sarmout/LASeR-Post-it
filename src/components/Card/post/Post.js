@@ -20,18 +20,18 @@ const Post = ({ isMobile, setcurrentId, setShowAddCard, card, index, free,}) => 
   const dispatch = useDispatch();
   const [isDrag, setisDrag] = useState(true);
   const [isActive, setisActive] = useState(false);
-  const [isActive1, setisActive1] = useState(false);
+  // const [isActive1, setisActive1] = useState(false);
   const location = useLocation();
   const inHome = location.pathname.split("/")[2]?.toLocaleLowerCase();
   console.log(inHome);
 
  const handleAll = (card) => {
-    if (inHome == "favorite") {
+    if (inHome === "favorite") {
       console.log(inHome);
       setisActive(false);
       dispatch({ type: REV_POST, value: card.id });
 
-    } else if (inHome == "trash") {
+    } else if (inHome === "trash") {
       console.log(inHome);
     } else {
       if (isActive) {
@@ -46,17 +46,17 @@ const Post = ({ isMobile, setcurrentId, setShowAddCard, card, index, free,}) => 
     }
   }
   const handleTrash = (card) => {
-    if (inHome == "favorite") {
-      console.log(`From Trash Function`+inHome);
-  
-    } else if (inHome == "trash") {
+    if (inHome === "favorite") {
+      dispatch({type:REV_POST,value:card.id})
+      dispatch({type:ADD_POST_TO_TRASH,value:card})
+      dispatch({type:DELETE_POST, value:card.id})
+    } else if (inHome === "trash") {
       console.log(inHome);
       dispatch({type:DELETE_PERMANENTLY,value:card.id})
     } else {
         dispatch({type:DELETE_POST, value:card.id})
        dispatch({type:ADD_POST_TO_TRASH,value:card})
-      
-      
+            
     }
   }
   const handleRestore = (card) => {
@@ -105,12 +105,13 @@ const Post = ({ isMobile, setcurrentId, setShowAddCard, card, index, free,}) => 
             <h3>{card.title}</h3>
             <h6>{moment(card?.date).fromNow()}</h6>
           </div>
-          <div>           
+          <div>     
+            {(inHome !== "trash") &&      
             <IconButton className="icons" onClick={handleAll.bind(null,card)}>
               { (inHome === "favorite" || isActive) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-            </IconButton>
+            </IconButton>}
             {inHome === "trash" &&
-            <IconButton onClick={handleRestore.bind(null,card)}>
+            <IconButton onClick={handleRestore.bind(null,card)} className="icons">
               <RestoreIcon/>
             </IconButton>}
             <IconButton
@@ -121,6 +122,7 @@ const Post = ({ isMobile, setcurrentId, setShowAddCard, card, index, free,}) => 
             </IconButton>
             {!inHome &&
             <IconButton
+            className="icons"
               onClick={() => {
                 setcurrentId(card.id);
                 setShowAddCard((prevState) => !prevState);
