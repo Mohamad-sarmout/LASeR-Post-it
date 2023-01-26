@@ -3,7 +3,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import { Paper } from "@mui/material";
 import { IconButton } from "@mui/material";
-import ReactSwitch from "react-switch";
+// import ReactSwitch from "react-switch";
 import { Link } from "react-router-dom";
 import { color } from "@mui/system";
 import Bumper from "./Bumper/Bumper";
@@ -63,12 +63,6 @@ function Navbar({
         </IconButton>
       </Paper>
       <span style={{ display: "flex", alignItems: "center" }}>
-        {/* <label> {theme === "light" ? "Light Mode" : "Dark Mode"}</label>&nbsp;
-        <ReactSwitch
-          onChange={toggleTheme}
-          checked={theme === "dark"}
-          onColor="#296fe6"
-        /> */}
         <Bumper />
       </span>
     </div>

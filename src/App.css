@@ -72,6 +72,39 @@ body {
   background-color: #68e1fd;
 }
 
+#dark .flex {
+  background-color: #1b1a19;
+}
+
+#dark .add {
+  background-color: #296fe6;
+  color: #000;
+}
+#dark .flex {
+  background: #000;
+  color: #fff;
+}
+
+#dark .Card {
+  background-color: #252423;
+  color: #fff;
+  border-color: #000;
+}
+#dark .searchIcon {
+  color: #296fe6;
+}
+
+#dark .icons {
+  color: #fff;
+}
+#dark .text {
+  color: #fff;
+}
+
+#dark #sidebar {
+  background-color: #252423;
+}
+
 .add {
   position: fixed;
   font: 1em sans-serif;
