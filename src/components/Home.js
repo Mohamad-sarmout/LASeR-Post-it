@@ -5,6 +5,7 @@ import { useMediaQuery } from "@mui/material";
 import Sidebar from "./Sidebar/Sidebar";
 import AddCard from "./AddCard";
 import { Route, Routes, useLocation } from "react-router";
+import { useSelector } from "react-redux";
 
 export const ThemeContext = createContext(null);
 
@@ -21,17 +22,6 @@ function Home() {
   };
   const location = useLocation();
   const inHome = location.pathname.split("/")[2]?.toLocaleLowerCase();
-  // console.log(inHome);
-  if (inHome === "favorite") {
-    // alert(inHome);
-    console.log("b");
-  } else if (inHome == "trash") {
-    // alert(inHome);
-    console.log("c");
-  } else {
-    // alert(inHome);
-    console.log("A");
-  }
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <div style={{ backgroundColor: "#EBEBF0" }} className="Wrap" id={theme}>

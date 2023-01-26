@@ -3,7 +3,6 @@ import "./Card.css";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import Post from "./post/Post";
-
 export default function Card({
   isMobile,
   show,
@@ -22,32 +21,20 @@ export default function Card({
   }, [isSearch]);
   console.log(isSearch);
   let Cards = [];
-  const state = useSelector((state) => state);
-  if (reducer === "Home") {
-    Cards = searchPosts
-      ? state.post.filter(
-          (post) =>
-            post.title.toLowerCase().includes(searchPosts) ||
-            post.Text.some((text) => text.toLowerCase().includes(searchPosts))
-        )
-      : state.post;
-  } else if (reducer === "Favorite") {
-    Cards = searchPosts
-      ? state.favorite.filter(
-          (post) =>
-            post.title.toLowerCase().includes(searchPosts) ||
-            post.Text.some((text) => text.toLowerCase().includes(searchPosts))
-        )
-      : state.favorite;
-  } else {
-    Cards = searchPosts
-      ? state.trash.filter(
-          (post) =>
-            post.title.toLowerCase().includes(searchPosts) ||
-            post.Text.some((text) => text.toLowerCase().includes(searchPosts))
-        )
-      : state.trash;
-  }
+  const state = useSelector((state) =>
+    reducer === "Favorite"
+      ? state.favorite
+      : reducer === "Trash"
+      ? state.trash
+      : state.post
+  );
+  Cards = searchPosts
+    ? state.filter(
+        (post) =>
+          post.title.toLowerCase().includes(searchPosts) ||
+          post.Text.some((text) => text.toLowerCase().includes(searchPosts))
+      )
+    : state;
 
   console.log(Cards);
   return (

@@ -1,5 +1,5 @@
 import { IconButton } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Draggable from "react-draggable";
 import "../Card.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -7,62 +7,78 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment/moment";
-import { DELETE_POST, ADD_TASK, ADD_POST } from "../../../store/action/PostAction";
+import {
+  DELETE_POST,
+  ADD_TASK,
+  ADD_POST,
+} from "../../../store/action/PostAction";
 import { useLocation } from "react-router";
-import { ADD_POST_TO_TRASH, DELETE_PERMANENTLY } from "../../../store/action/TrashAction";
+import {
+  ADD_POST_TO_TRASH,
+  DELETE_PERMANENTLY,
+} from "../../../store/action/TrashAction";
 import { FAV_POST, REV_POST } from "../../../store/action/FavoriteAction";
-import  RestoreIcon from "@mui/icons-material/Restore";
+import RestoreIcon from "@mui/icons-material/Restore";
 
-
-const Post = ({ isMobile, setcurrentId, setShowAddCard, card, index, free,}) => {
+const Post = ({
+  isMobile,
+  setcurrentId,
+  setShowAddCard,
+  card,
+  index,
+  free,
+}) => {
   const dispatch = useDispatch();
   const [isDrag, setisDrag] = useState(true);
-  const [isActive, setisActive] = useState(false);
+  const fav = useSelector((state) =>
+    state.favorite.findIndex((post) => post.id === card.id)
+  );
+  console.log(fav);
+  const [isActive, setisActive] = useState(!fav === -1 ? true : false);
   // const [isActive1, setisActive1] = useState(false);
   const location = useLocation();
   const inHome = location.pathname.split("/")[2]?.toLocaleLowerCase();
   console.log(inHome);
-
- const handleAll = (card) => {
+  console.log(isActive);
+  useEffect(() => {
+    setisActive(fav === -1 ? false : true);
+  }, [isActive]);
+  const handleAll = (card) => {
     if (inHome === "favorite") {
       console.log(inHome);
       setisActive(false);
       dispatch({ type: REV_POST, value: card.id });
-
     } else if (inHome === "trash") {
       console.log(inHome);
     } else {
       if (isActive) {
         setisActive(false);
-        dispatch({type:REV_POST,value:card.id});
-
-      } else{
+        dispatch({ type: REV_POST, value: card.id });
+      } else {
         setisActive(true);
-        dispatch({type:FAV_POST,value:card});
+        dispatch({ type: FAV_POST, value: card });
       }
-      
     }
-  }
+  };
   const handleTrash = (card) => {
     if (inHome === "favorite") {
-      dispatch({type:REV_POST,value:card.id})
-      dispatch({type:ADD_POST_TO_TRASH,value:card})
-      dispatch({type:DELETE_POST, value:card.id})
+      dispatch({ type: REV_POST, value: card.id });
+      dispatch({ type: ADD_POST_TO_TRASH, value: card });
+      dispatch({ type: DELETE_POST, value: card.id });
     } else if (inHome === "trash") {
       console.log(inHome);
-      dispatch({type:DELETE_PERMANENTLY,value:card.id})
+      dispatch({ type: DELETE_PERMANENTLY, value: card.id });
     } else {
-        dispatch({type:DELETE_POST, value:card.id})
-       dispatch({type:ADD_POST_TO_TRASH,value:card})
-            
+      dispatch({ type: DELETE_POST, value: card.id });
+      dispatch({ type: ADD_POST_TO_TRASH, value: card });
     }
-  }
+  };
   const handleRestore = (card) => {
-    dispatch({type:ADD_POST,value:card})
-    dispatch({type:DELETE_PERMANENTLY, value:card.id})
-   }
+    dispatch({ type: ADD_POST, value: card });
+    dispatch({ type: DELETE_PERMANENTLY, value: card.id });
+  };
 
   return (
     <Draggable
@@ -107,33 +123,44 @@ const Post = ({ isMobile, setcurrentId, setShowAddCard, card, index, free,}) => 
             <h3>{card.title}</h3>
             <h6>{moment(card?.date).fromNow()}</h6>
           </div>
-          <div>     
-            {(inHome !== "trash") &&      
-            <IconButton className="icons" onClick={handleAll.bind(null,card)}>
-              { (inHome === "favorite" || isActive) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-            </IconButton>}
-            {inHome === "trash" &&
-            <IconButton onClick={handleRestore.bind(null,card)} className="icons">
-              <RestoreIcon/>
-            </IconButton>}
+          <div>
+            {inHome !== "trash" && (
+              <IconButton
+                className="icons"
+                onClick={handleAll.bind(null, card)}
+              >
+                {inHome === "favorite" || (!inHome && isActive) ? (
+                  <FavoriteIcon />
+                ) : (
+                  <FavoriteBorderIcon />
+                )}
+              </IconButton>
+            )}
+            {inHome === "trash" && (
+              <IconButton
+                onClick={handleRestore.bind(null, card)}
+                className="icons"
+              >
+                <RestoreIcon />
+              </IconButton>
+            )}
             <IconButton
               className="icons"
-              onClick={handleTrash.bind(null,card)}
+              onClick={handleTrash.bind(null, card)}
             >
               <DeleteIcon />
             </IconButton>
-            {!inHome &&
-            <IconButton
-            className="icons"
-              onClick={() => {
-                setcurrentId(card.id);
-                setShowAddCard((prevState) => !prevState);
-              }}
-            >
-              <EditIcon />
-          </IconButton>
-      } 
-
+            {!inHome && (
+              <IconButton
+                className="icons"
+                onClick={() => {
+                  setcurrentId(card.id);
+                  setShowAddCard((prevState) => !prevState);
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+            )}
           </div>
         </div>
         <div>
@@ -150,16 +177,17 @@ const Post = ({ isMobile, setcurrentId, setShowAddCard, card, index, free,}) => 
               ))}
         </div>
         <div style={{ textAlign: "end" }}>
-          {!inHome &&
-          <IconButton
-            className="icons"
-            onClick={() => {
-              setcurrentId(ADD_TASK + card?.id);
-              setShowAddCard((prevState) => !prevState);
-            }}
-          >
-            <AddIcon />
-          </IconButton>}
+          {!inHome && (
+            <IconButton
+              className="icons"
+              onClick={() => {
+                setcurrentId(ADD_TASK + card?.id);
+                setShowAddCard((prevState) => !prevState);
+              }}
+            >
+              <AddIcon />
+            </IconButton>
+          )}
         </div>
       </div>
     </Draggable>
@@ -167,4 +195,3 @@ const Post = ({ isMobile, setcurrentId, setShowAddCard, card, index, free,}) => 
 };
 
 export default Post;
-
