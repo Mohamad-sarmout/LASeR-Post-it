@@ -10,9 +10,12 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { NavLink } from "react-router-dom";
 import classes from "./Sidebar.module.css";
 import { useState } from "react";
+
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 // import ReactSwitch from "react-switch";
+
 const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode, toggleTheme,theme }) => {
+
   const [isOn, setisOn] = useState(false);
   const Root = styled(Box)(({ theme }) => ({
     zIndex: "30",
@@ -28,18 +31,15 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode, toggleTheme,theme
 
   return (
     <>
- 
-      <IconButton 
+      <IconButton
         sx={{ mt: "-100px", ml: "-33px", width: "300px" }}
         onClick={() => setshow(!show)}
       >
-        <MenuIcon/>
+        <MenuIcon />
       </IconButton>
       <Root className={classes.flex} id="sidebar">
-        
         <div className={classes.start}>
           {/* <div> */}
-     
           <Switch
             {...label}
             checked={isOn}
@@ -49,6 +49,7 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode, toggleTheme,theme
             }}
             title="Switch for free mode"
           />
+
           {isMobile && (
             <IconButton 
             className="icons"
@@ -60,7 +61,8 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode, toggleTheme,theme
           )}
         </div>
         <NavLink
-          to="/"
+          end
+          to="/Home"
           className={classes.link}
           style={({ isActive }) =>
             isActive ? { background: "rgb(165, 164, 164)" } : undefined
@@ -71,17 +73,18 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode, toggleTheme,theme
         </NavLink>
         <Divider />
         <NavLink
-          to="/f"
+          to="/Home/favorite"
           className={classes.link}
           style={({ isActive }) =>
             isActive ? { background: "rgb(165, 164, 164)" } : undefined
           }
         >
-          <Favorite className="icons" /> {!isMobile && <span className="text">Favorite</span>}
+          <Favorite className="icons" />{" "}
+          {!isMobile && <span className="text">Favorite</span>}
         </NavLink>
         <Divider />
         <NavLink
-          to="/d"
+          to="/Home/trash"
           className={classes.link}
           style={({ isActive }) =>
             isActive ? { background: "rgb(165, 164, 164)" } : undefined
@@ -90,16 +93,14 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode, toggleTheme,theme
           <DeleteOutlineIcon className="icons" />
           {!isMobile && <span className="text">Trash</span>}
         </NavLink>
-        
+
         <Divider />
-        <Divider />
-       
-    <span style={{display:"flex", justifyContent:"center", marginTop:"50px",marginLeft:"-12px"}}>
+        <Divider />       
+    <span style={{display:"flex", justifyContent:"center", marginTop:"50px",marginLeft:"-5px"}}>
         <label className="text"> {theme === "light" ? "Light Mode" : "Dark Mode"}
         <Switch
           onChange={toggleTheme}
           checked={theme === "dark"}
-          onColor="#296fe6"
           checkedIcon={<DarkModeIcon fontSize="medium"/>}        
           />
           </label>

@@ -1,2 +1,2 @@
-export const RESTORE_POST = "RESTORE_POST";
-export const DELETE_POST = "DELETE_POST";
+export const DELETE_PERMANENTLY = "DELETE_PERMANENTLY";
+export const ADD_POST_TO_TRASH = "ADD_POST_TO_TRASH";

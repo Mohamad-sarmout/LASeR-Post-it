@@ -1,51 +1,52 @@
 .getStarted {
-    background-color: #EBEBF0;
-    text-align: center;
-    height: 100vh;
-   
+  background-color: #ebebf0;
+  text-align: center;
+  height: 100vh;
 }
 .arrangeImg {
-    max-width: 100%;
+  max-width: 100%;
 }
 .title {
-    text-align: center;
-    color: #222A72;
+  text-align: center;
+  color: #222a72;
+  margin-bottom: 50px;
 }
 
 .btnn {
-    color: #FFFFFF;
-    font-weight: 700;
-    font-size: 24px;
-    background-color: #68E1FD;
-    padding: 20px 50px;
-    border-radius: 25px;
-    border: none;
-    cursor: pointer;
-    margin-top: 40px;
-    text-align: center;
-    width: 20rem;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 24px;
+  background-color: #68e1fd;
+  padding: 20px 50px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  margin-top: 200px;
+  text-align: center;
+  text-decoration: none;
+  width: 20rem;
 }
 
 .leftEllipse {
-    position: absolute;
-    top: -8px;
-    left: -8px;
+  position: absolute;
+  top: -8px;
+  left: -8px;
 }
 
 .rightEllipse {
-    position: absolute;
-    top: -8px;
-    right: -8px;
+  position: absolute;
+  top: -8px;
+  right: -8px;
 }
 
-@media (max-width:499px) {
-    .leftEllipse {
-        display: none;
-    }
-    .rightEllipse {
-        display: none;
-    }
-    .arrangeImg {
-        width:"70%"
-    }
+@media (max-width: 499px) {
+  .leftEllipse {
+    display: none;
+  }
+  .rightEllipse {
+    display: none;
+  }
+  .arrangeImg {
+    width: "70%";
+  }
 }
