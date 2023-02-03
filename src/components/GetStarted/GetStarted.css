@@ -1,7 +1,8 @@
 .getStarted {
   background-color: #ebebf0;
   text-align: center;
-  height: 100vh;
+  height: 100%;
+  margin: auto;
 }
 .arrangeImg {
   max-width: 100%;

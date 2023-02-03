@@ -1,7 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./SignUp.module.css";
+import { useForm } from 'react-hook-form'
 function SignUp() {
+  const {register, handleSubmit, formState:{errors}, reset}= useForm();
+  const onSubmit = (data) => {
+    console.log(data);
+    reset()
+  }
   return (
     <div className={styles.signup_container}>
       <div className={styles.signup_form_container}>
@@ -15,58 +21,44 @@ function SignUp() {
         </div>
         <div className={styles.right}>
           <form
+          onSubmit={handleSubmit(onSubmit)}
             className={styles.form_container}
-            // onSubmit={handleSubmit}
           >
             <h1>Create Account</h1>
             <input
               type="text"
-              placeholder="First Name"
-              name="firstName"
-              // onChange={handleChange}
-              // value={data.firstName}
-              required
+              placeholder="User Name"
+              name="UserName"  
+
+              {...register("UserName", { required: "UserName is required" })}
               className={styles.input}
             />
-            <input
-              type="text"
-              placeholder="Last Name"
-              name="lastName"
-              // onChange={handleChange}
-              // value={data.lastName}
-              required
-              className={styles.input}
-            />
+            <span style={{fontSize:"10px",color:"red"}}>{errors.UserName?.message}</span>
             <input
               type="email"
               placeholder="Email"
               name="email"
-              // onChange={handleChange}
-              // value={data.email}
-              required
+              {...register("email", { required: "Email is required" })}
               className={styles.input}
             />
+            <span style={{fontSize:"10px",color:"red"}}>{errors.email?.message}</span>
             <input
               type="password"
+              {...register("password",{required:"Password is required",minLength:{
+                value: 8,
+                message: "At Least 8 Character"
+              }})}
               placeholder="Password"
               name="password"
-              // onChange={handleChange}
-              // value={data.password}
-              required
               className={styles.input}
             />
-            {/* {error && <div className={styles.error_msg}>{error}</div>} */}
-            <Link to="/Home">
-              {" "}
-              <button type="submit" className={styles.blue_btn}>
-                Sign Up
-              </button>
-            </Link>
+            <span style={{fontSize:"10px",color:"red"}}>{errors.password?.message}</span>
+            <input type="submit" className={styles.blue_btn} />
           </form>
         </div>
       </div>
     </div>
   );
-}
+} 
 
 export default SignUp;
