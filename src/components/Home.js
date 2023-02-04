@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Card from "./Card/Card";
 import { useMediaQuery } from "@mui/material";
@@ -16,15 +16,27 @@ function Home() {
   const [showAddCard, setShowAddCard] = useState(false);
   const [currentId, setcurrentId] = useState("");
   const [searchPosts, setsearchPosts] = useState(null);
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(localStorage.getItem("theme"));
   const toggleTheme = () => {
     setTheme((curr) => (curr === "light" ? "dark" : "light"));
   };
+  const state = useSelector(state => state);
+   
+//   useEffect(() => {
+//     localStorage.setItem('state',JSON.stringify(state))
+//  },[state])
+ 
+  useEffect(() => {
+    localStorage.setItem('theme',theme)
+ },[theme])
+
+  
   const location = useLocation();
   const inHome = location.pathname.split("/")[2]?.toLocaleLowerCase();
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <div style={{ backgroundColor: "#EBEBF0" }} className="Wrap" id={theme}>
+      <div style={{backgroundColor:theme==="dark"? "#11100f" :""}} className="Wrap" id={theme}>
+        
         <Navbar
           isMobile={isMobile}
           show={show}
@@ -34,6 +46,7 @@ function Home() {
           theme={theme}
         />
         <h1
+        id="postitBody"
           style={{
             position: "relative",
             top: "70px",
@@ -113,6 +126,7 @@ function Home() {
           setShowAddCard={setShowAddCard}
           currentId={currentId}
           setcurrentId={setcurrentId}
+          isMobile={isMobile}
         />
         {!inHome && (
           <div className="add" onClick={() => setShowAddCard(true)}>

@@ -7,23 +7,25 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_POST, ADD_TASK, UPDATE_POST } from "../store/action/PostAction";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 2,
-};
 
 export default function KeepMountedModal({
   showAddCard,
   setShowAddCard,
   currentId,
   setcurrentId,
+  isMobile
 }) {
+  
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: isMobile ? 300 : 500,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 2,
+};
   const [addCard, setaddCard] = useState({
     id: "",
     title: "",

@@ -3,9 +3,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import { Paper } from "@mui/material";
 import { IconButton } from "@mui/material";
-// import ReactSwitch from "react-switch";
 import { Link } from "react-router-dom";
-import { color } from "@mui/system";
 import Bumper from "./Bumper/Bumper";
 
 function Navbar({
@@ -24,7 +22,7 @@ function Navbar({
     <div className="flex" style={{ position: "fixed" }}>
       <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
         {isMobile && !show && (
-          <IconButton onClick={() => setshow(!show)}>
+          <IconButton className="icons" onClick={() => setshow(!show)}>
             <MenuIcon sx={{ mb: "-6px", mr: "5px" }} />
           </IconButton>
         )}
@@ -32,6 +30,7 @@ function Navbar({
       </Link>
       <Paper
         component="form"
+        id="search"
         sx={{
           borderRadius: 20,
           border: "1px solid #e3e3e3",

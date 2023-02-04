@@ -61,7 +61,7 @@ h1 {
 .Card:hover {
   border-color: #ebebf0;
   /* transform: translateY(-0.5rem); */
-  box-shadow: 0.5rem 0.75rem 1.5rem #bbbb;
+  box-shadow: 0rem 0rem 0.5rem #bbbb;
 }
 
 .row {

@@ -32,7 +32,6 @@ function Login() {
             />
             {/* {error && <div className={styles.error_msg}>{error}</div>} */}
             <Link to="/Home">
-              {" "}
               <button type="submit" className={styles.blue_btn}>
                 Sign In
               </button>

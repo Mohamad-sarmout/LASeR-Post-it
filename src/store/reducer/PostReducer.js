@@ -16,6 +16,19 @@ const initstate = [
     stylefont: "roboto",
   },
 ];
+// const initstate = JSON.parse(localStorage.getItem('state'))? JSON.parse(localStorage.getItem('state')).post : 
+// [
+//      {
+//       id: "1",
+//       title: "Todo",
+//       Text: ["lessons"],
+//       date: "2023-11-11",
+//       color: "#ff0000",
+//       fontColor: "#ffff",
+//       stylefont: "roboto",
+//     },
+//   ];
+
 
 const postreducer = (state = initstate, action) => {
   console.log(state);
