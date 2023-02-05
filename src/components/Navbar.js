@@ -3,31 +3,21 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import { Paper } from "@mui/material";
 import { IconButton } from "@mui/material";
-// import ReactSwitch from "react-switch";
 import { Link } from "react-router-dom";
-import { color } from "@mui/system";
 import Bumper from "./Bumper/Bumper";
 
-function Navbar({
-  isMobile,
-  show,
-  setshow,
-  setsearchPosts,
-  theme,
-  toggleTheme,
-}) {
-  console.log(show);
+function Navbar({ isMobile, show, setshow, setsearchPosts }) {
   const handleSearch = (e) => {
     setsearchPosts(e.target.value);
   };
   return (
     <div className="flex" style={{ position: "fixed" }}>
-      <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-        {isMobile && !show && (
-          <IconButton onClick={() => setshow(!show)}>
-            <MenuIcon sx={{ mb: "-6px", mr: "5px" }} />
-          </IconButton>
-        )}
+      {isMobile && !show && (
+        <IconButton onClick={() => setshow(!show)}>
+          <MenuIcon sx={{ mb: "-6px", mr: "5px" }} />
+        </IconButton>
+      )}
+      <Link to="/home" style={{ textDecoration: "none", color: "inherit" }}>
         Post it App
       </Link>
       <Paper

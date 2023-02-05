@@ -43,3 +43,8 @@
 .flex span {
   padding-left: 15px;
 }
+/* @media (max-height: 700px) {
+  .flex {
+    height: 106%;
+  }
+} */

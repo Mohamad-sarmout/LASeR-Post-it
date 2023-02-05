@@ -4,11 +4,12 @@ import Card from "./Card/Card";
 import { useMediaQuery } from "@mui/material";
 import Sidebar from "./Sidebar/Sidebar";
 import AddCard from "./AddCard";
-import { Route, Routes, useLocation } from "react-router";
-import { useSelector } from "react-redux";
+import { Route, Routes, useLocation, useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getposts } from "../actions/PostActions";
 
 export const ThemeContext = createContext(null);
-
 function Home() {
   const [show, setshow] = useState(true);
   const [freeMode, setfreeMode] = useState(false);
@@ -20,8 +21,17 @@ function Home() {
   const toggleTheme = () => {
     setTheme((curr) => (curr === "light" ? "dark" : "light"));
   };
+  const user = JSON.parse(localStorage.getItem("profile"));
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const isSort = queryParams.get("sort");
   const inHome = location.pathname.split("/")[2]?.toLocaleLowerCase();
+  useEffect(() => {
+    dispatch(getposts(user?.id));
+  }, [dispatch, user?.id]);
+
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <div style={{ backgroundColor: "#EBEBF0" }} className="Wrap" id={theme}>
@@ -33,15 +43,39 @@ function Home() {
           toggleTheme={toggleTheme}
           theme={theme}
         />
-        <h1
+        <div
           style={{
             position: "relative",
             top: "70px",
             left: isMobile ? (show ? "4rem" : "3rem") : "250px",
+            display: "flex",
           }}
         >
-          Post it
-        </h1>
+          {/* <h1>Post it</h1> <button className="sort">Ascending</button> */}
+          <h1 style={{ fontSize: "20px" }}>
+            {inHome === "favorite"
+              ? "Favorite Posts"
+              : inHome === "trash"
+              ? "Trash Cleaner"
+              : "Post it"}
+          </h1>
+          <button
+            className="sort"
+            onClick={() =>
+              navigate(
+                `/Home${
+                  inHome === "favorite"
+                    ? "/Favorite"
+                    : inHome === "trash"
+                    ? "/Trash"
+                    : ""
+                }${isSort === "desc" ? "" : "?sort=desc"}`
+              )
+            }
+          >
+            {isSort === "desc" ? "Ascending" : "Descending"}
+          </button>
+        </div>
 
         <Sidebar
           show={show}
@@ -67,6 +101,7 @@ function Home() {
                   searchPosts={searchPosts}
                   setsearchPosts={setsearchPosts}
                   reducer="Home"
+                  isSort={isSort}
                 />
               </div>
             }
@@ -85,6 +120,7 @@ function Home() {
                   searchPosts={searchPosts}
                   setsearchPosts={setsearchPosts}
                   reducer="Favorite"
+                  isSort={isSort}
                 />
               </div>
             }
@@ -103,6 +139,7 @@ function Home() {
                   searchPosts={searchPosts}
                   setsearchPosts={setsearchPosts}
                   reducer="Trash"
+                  isSort={isSort}
                 />
               </div>
             }

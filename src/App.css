@@ -54,7 +54,30 @@ body {
 .add:active {
   box-shadow: 0 0 10px #68e1fd;
 }
+.avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 11.5px;
+  padding-left: 3px;
+}
+.sort {
+  background: #ebebf0;
+  font-size: small;
+  height: 30px;
+  margin-top: 15px;
+  padding: 15px 30px;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 3px solid #68e1fd;
+  margin-left: 20px;
+}
+.sort:hover {
+  background: #86868b;
+}
 .Main {
   display: flex;
   flex-direction: row;

@@ -1,5 +1,5 @@
 import { IconButton } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Draggable from "react-draggable";
 import "../Card.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -7,20 +7,24 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import { useDispatch, useSelector } from "react-redux";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+
+import { useDispatch } from "react-redux";
 import moment from "moment/moment";
-import {
-  DELETE_POST,
-  ADD_TASK,
-  ADD_POST,
-} from "../../../store/action/PostAction";
+import { ADD_TASK } from "../../../store/constants/PostAction";
 import { useLocation } from "react-router";
-import {
-  ADD_POST_TO_TRASH,
-  DELETE_PERMANENTLY,
-} from "../../../store/action/TrashAction";
-import { FAV_POST, REV_POST } from "../../../store/action/FavoriteAction";
 import RestoreIcon from "@mui/icons-material/Restore";
+import { updatedpost } from "../../../actions/PostActions";
+import {
+  deleteFavPost,
+  favpost,
+  unfavpost,
+} from "../../../actions/FavoriteActions";
+import {
+  deletepermenantlypost,
+  deletepost,
+  restorepost,
+} from "../../../actions/TrashActions";
 
 const Post = ({
   isMobile,
@@ -29,61 +33,48 @@ const Post = ({
   card,
   index,
   free,
+  isPressedForCopy,
+  setisPressedForCopy,
 }) => {
   const dispatch = useDispatch();
   const [isDrag, setisDrag] = useState(true);
-  const fav = useSelector((state) =>
-    state.favorite.findIndex((post) => post.id === card.id)
-  );
-  console.log(fav);
-  const [isActive, setisActive] = useState(!fav === -1 ? true : false);
-  // const [isActive1, setisActive1] = useState(false);
+  const [isActive, setisActive] = useState(card.favorite);
   const location = useLocation();
   const inHome = location.pathname.split("/")[2]?.toLocaleLowerCase();
-  console.log(inHome);
-  console.log(isActive);
-  useEffect(() => {
-    setisActive(fav === -1 ? false : true);
-  }, [isActive]);
-  const handleAll = (card) => {
+  const handleFav = (card) => {
     if (inHome === "favorite") {
-      console.log(inHome);
       setisActive(false);
-      dispatch({ type: REV_POST, value: card.id });
-    } else if (inHome === "trash") {
-      console.log(inHome);
-    } else {
+      dispatch(unfavpost(card));
+    } else if (!inHome)
       if (isActive) {
         setisActive(false);
-        dispatch({ type: REV_POST, value: card.id });
+        dispatch(unfavpost(card));
       } else {
         setisActive(true);
-        dispatch({ type: FAV_POST, value: card });
+        dispatch(favpost(card));
       }
-    }
   };
   const handleTrash = (card) => {
     if (inHome === "favorite") {
-      dispatch({ type: REV_POST, value: card.id });
-      dispatch({ type: ADD_POST_TO_TRASH, value: card });
-      dispatch({ type: DELETE_POST, value: card.id });
+      dispatch(deleteFavPost(card));
     } else if (inHome === "trash") {
-      console.log(inHome);
-      dispatch({ type: DELETE_PERMANENTLY, value: card.id });
+      dispatch(deletepermenantlypost(card.id));
     } else {
-      dispatch({ type: DELETE_POST, value: card.id });
-      dispatch({ type: ADD_POST_TO_TRASH, value: card });
+      dispatch(deletepost({ ...card, favorite: false, trash: true }));
     }
   };
   const handleRestore = (card) => {
-    dispatch({ type: ADD_POST, value: card });
-    dispatch({ type: DELETE_PERMANENTLY, value: card.id });
+    dispatch(restorepost({ ...card, trash: false }));
   };
-
+  const handleCopyDesign = (id) => {
+    const { fontColor, color, stylefont } = isPressedForCopy;
+    dispatch(updatedpost({ ...card, fontColor, color, stylefont }));
+    setisPressedForCopy({ value: false });
+  };
+  let keysPressed = {};
   return (
     <Draggable
       key={index}
-      // cancel=".handle"
       handle=".handle"
       disabled={free && isDrag ? (isMobile ? false : false) : true}
       axis="both"
@@ -94,14 +85,30 @@ const Post = ({
       onStop={() => {
         // setisDrag(false);
       }}
-      onDrag={() => console.log("drag")}
+      onDrag={() => console.log(isDrag)}
       onMouseDown={() => {
         setisDrag(true);
       }}
     >
       <div
+        role="button"
+        tabIndex="0"
         onClick={() => {
           setisDrag(true);
+        }}
+        onDoubleClick={() =>
+          isPressedForCopy.value && handleCopyDesign(card.id)
+        }
+        onKeyDown={(event) => {
+          keysPressed[event.key] = true;
+          if (keysPressed["Control"] && event.key === "c") {
+            isPressedForCopy.value = true;
+            setisPressedForCopy({ value: true, ...card });
+          }
+          if (keysPressed["Control"] && event.key === "v") {
+            isPressedForCopy.value && handleCopyDesign(card.id);
+            isPressedForCopy.value = false;
+          }
         }}
         className="Card"
         key={card}
@@ -127,13 +134,9 @@ const Post = ({
             {inHome !== "trash" && (
               <IconButton
                 className="icons"
-                onClick={handleAll.bind(null, card)}
+                onClick={handleFav.bind(null, card)}
               >
-                {inHome === "favorite" || (!inHome && isActive) ? (
-                  <FavoriteIcon />
-                ) : (
-                  <FavoriteBorderIcon />
-                )}
+                {isActive ? <FavoriteIcon /> : <FavoriteBorderIcon />}
               </IconButton>
             )}
             {inHome === "trash" && (
@@ -161,19 +164,26 @@ const Post = ({
                 <EditIcon />
               </IconButton>
             )}
+            <IconButton
+              onClick={() => setisPressedForCopy({ value: true, ...card })}
+            >
+              <MoreVertIcon />
+            </IconButton>
           </div>
         </div>
         <div>
-          {card.Text.length > 1
-            ? card?.Text?.map((task, index) => (
-                <p key={index}>
-                  {index + 1}:{task} <br></br>
-                </p>
+          {card?.Text?.split(",")?.length > 1
+            ? card?.Text?.split(",")?.map((task, index) => (
+                <ul key={index}>
+                  <li>
+                    {index + 1}:{task}
+                  </li>
+                </ul>
               ))
-            : card?.Text?.map((task, index) => (
-                <p key={index}>
-                  {task} <br></br>
-                </p>
+            : card?.Text?.split(",")?.map((task, index) => (
+                <ul key={index}>
+                  <li> {task} </li>
+                </ul>
               ))}
         </div>
         <div style={{ textAlign: "end" }}>
@@ -181,6 +191,7 @@ const Post = ({
             <IconButton
               className="icons"
               onClick={() => {
+                console.log(card?.id);
                 setcurrentId(ADD_TASK + card?.id);
                 setShowAddCard((prevState) => !prevState);
               }}
