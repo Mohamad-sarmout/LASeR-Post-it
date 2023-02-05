@@ -6,26 +6,18 @@ import { IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import Bumper from "./Bumper/Bumper";
 
-function Navbar({
-  isMobile,
-  show,
-  setshow,
-  setsearchPosts,
-  theme,
-  toggleTheme,
-}) {
-  console.log(show);
+function Navbar({ isMobile, show, setshow, setsearchPosts }) {
   const handleSearch = (e) => {
     setsearchPosts(e.target.value);
   };
   return (
     <div className="flex" style={{ position: "fixed" }}>
-      <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-        {isMobile && !show && (
-          <IconButton className="icons" onClick={() => setshow(!show)}>
-            <MenuIcon sx={{ mb: "-6px", mr: "5px" }} />
-          </IconButton>
-        )}
+      {isMobile && !show && (
+        <IconButton onClick={() => setshow(!show)}>
+          <MenuIcon sx={{ mb: "-6px", mr: "5px" }} />
+        </IconButton>
+      )}
+      <Link to="/home" style={{ textDecoration: "none", color: "inherit" }}>
         Post it App
       </Link>
       <Paper

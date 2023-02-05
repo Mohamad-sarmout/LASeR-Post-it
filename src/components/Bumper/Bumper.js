@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import img from "../../assets/to-do-list.png";
 import classes from "./Bumper.module.css";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { useSelector } from "react-redux";

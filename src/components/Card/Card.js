@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Card.css";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
@@ -12,14 +12,16 @@ export default function Card({
   searchPosts,
   setsearchPosts,
   reducer,
+  isSort,
 }) {
+  const [isPressedForCopy, setisPressedForCopy] = useState({ value: false });
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const isSearch = queryParams.get("search");
+  let sortedProducts = [];
   useEffect(() => {
     setsearchPosts(isSearch);
-  }, [isSearch]);
-  console.log(isSearch);
+  }, [isSearch, setsearchPosts]);
   let Cards = [];
   const state = useSelector((state) =>
     reducer === "Favorite"
@@ -28,15 +30,24 @@ export default function Card({
       ? state.trash
       : state.post
   );
-  Cards = searchPosts
-    ? state.filter(
-        (post) =>
-          post.title.toLowerCase().includes(searchPosts) ||
-          post.Text.some((text) => text.toLowerCase().includes(searchPosts))
-      )
-    : state;
-
-  console.log(Cards);
+  Cards =
+    searchPosts || isSearch
+      ? state.filter(
+          (post) =>
+            post.title.toLowerCase().includes(searchPosts) ||
+            post.Text?.split(",").some((text) =>
+              text.toLowerCase().includes(searchPosts)
+            )
+        )
+      : state;
+  if (isSort === "desc")
+    sortedProducts = Cards.sort((p1, p2) =>
+      p1.date < p2.date ? 1 : p1.date > p2.date ? -1 : 0
+    );
+  else
+    sortedProducts = Cards.sort((p1, p2) =>
+      p1.date > p2.date ? 1 : p1.date < p2.date ? -1 : 0
+    );
   return (
     <div
       style={{
@@ -49,11 +60,13 @@ export default function Card({
         // overflow: "hidden",
         padding: "0px",
         marginLeft: isMobile ? (show ? "70px" : "0px") : "200px",
-        marginTop: "140px",
+        marginTop: "70px",
       }}
     >
-      {Cards?.map((card, index) => (
+      {sortedProducts?.map((card, index) => (
         <Post
+          isPressedForCopy={isPressedForCopy}
+          setisPressedForCopy={setisPressedForCopy}
           key={index}
           index={index}
           card={card}

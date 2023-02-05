@@ -1,13 +1,30 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
 import { useForm } from 'react-hook-form'
+import { createuser } from "../../actions/UserActions";
 function SignUp() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [userData, setuserData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
   const {register, handleSubmit, formState:{errors}, reset}= useForm();
   const onSubmit = (data) => {
     console.log(data);
     reset()
   }
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+    dispatch(createuser(userData, navigate));
+  };
+  const handleChange = (event) => {
+    setuserData({ ...userData, [event.target.name]: event.target.value });
+  };
   return (
     <div className={styles.signup_container}>
       <div className={styles.signup_form_container}>
@@ -21,16 +38,18 @@ function SignUp() {
         </div>
         <div className={styles.right}>
           <form
-          onSubmit={handleSubmit(onSubmit)}
             className={styles.form_container}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <h1>Create Account</h1>
             <input
+             
               type="text"
-              placeholder="User Name"
-              name="UserName"  
-
-              {...register("UserName", { required: "UserName is required" })}
+              placeholder="username"
+              name="username"
+              // {...register("username", { required: "UserName is required" })}
+              onChange={handleChange}
+              value={userData.username}
               className={styles.input}
             />
             <span style={{fontSize:"10px",color:"red"}}>{errors.UserName?.message}</span>
@@ -38,27 +57,38 @@ function SignUp() {
               type="email"
               placeholder="Email"
               name="email"
-              {...register("email", { required: "Email is required" })}
+              // {...register("email", { required: "Email is required" })}
+              onChange={handleChange}
+              value={userData.email}
               className={styles.input}
             />
-            <span style={{fontSize:"10px",color:"red"}}>{errors.email?.message}</span>
+             <span style={{fontSize:"10px",color:"red"}}>{errors.email?.message}</span>
             <input
               type="password"
-              {...register("password",{required:"Password is required",minLength:{
-                value: 8,
-                message: "At Least 8 Character"
-              }})}
               placeholder="Password"
               name="password"
+              // {...register("password",{required:"Password is required",minLength:{
+              //   value: 8,
+              //   message: "At Least 8 Character"
+              // }})}
+              onChange={handleChange}
+              value={userData.password}
               className={styles.input}
+             
             />
-            <span style={{fontSize:"10px",color:"red"}}>{errors.password?.message}</span>
-            <input type="submit" className={styles.blue_btn} />
+             <span style={{fontSize:"10px",color:"red"}}>{errors.password?.message}</span>
+            <button
+              type="submit"
+              className={styles.blue_btn}
+              onClick={handleSignUp}
+            >
+              Sign Up
+            </button>
           </form>
         </div>
       </div>
     </div>
   );
-} 
+}
 
 export default SignUp;

@@ -5,8 +5,12 @@ import Button from "@mui/material/Button";
 import { IconButton, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_POST, ADD_TASK, UPDATE_POST } from "../store/action/PostAction";
-
+import { ADD_TASK } from "../store/constants/PostAction";
+import {
+  createpost,
+  updatedpost,
+  updatedPostsubtask,
+} from "../actions/PostActions";
 
 export default function KeepMountedModal({
   showAddCard,
@@ -26,10 +30,11 @@ const style = {
   boxShadow: 24,
   p: 2,
 };
+  const user = JSON.parse(localStorage.getItem("profile"));
   const [addCard, setaddCard] = useState({
     id: "",
     title: "",
-    Text: [],
+    Text: "",
     color: "",
     fontColor: "",
     stylefont: "",
@@ -37,38 +42,55 @@ const style = {
   });
   const dispatch = useDispatch();
   const currentPost = useSelector((state) =>
-    currentId ? state.post.find((post) => post.id === currentId) : null
+    currentId || currentId.toString().includes(ADD_TASK)
+      ? state.post.find(
+          (post) =>
+            post.id === currentId ||
+            post.id === parseInt(currentId?.toString().split("K")[1])
+        )
+      : null
   );
-  console.log(currentPost);
   const handleChange = (event) => {
     event.target.name !== "Text"
       ? setaddCard({ ...addCard, [event.target.name]: event.target.value })
       : setaddCard({
           ...addCard,
-          [event.target.name]: event.target.value.split(","),
+          [event.target.name]: event.target.value,
         });
   };
   useEffect(() => {
-    if (currentId && !currentId.includes(ADD_TASK)) {
+    if (currentId && !currentId?.toString().includes(ADD_TASK)) {
       setaddCard(currentPost);
     }
   }, [currentId]);
-  const handleSubmit = () => {
-    if (currentId && !currentId?.includes(ADD_TASK)) {
+
+  const handleSubmit = async () => {
+    if (currentId && !currentId?.toString().includes(ADD_TASK)) {
       setShowAddCard((prev) => !prev);
-      dispatch({ type: UPDATE_POST, value: addCard });
-    } else if (currentId?.includes(ADD_TASK)) {
+      dispatch(
+        updatedpost({
+          ...addCard,
+        })
+      );
+    } else if (currentId?.toString().includes(ADD_TASK)) {
       setShowAddCard((prev) => !prev);
-      dispatch({
-        type: ADD_TASK,
-        value: { task: addCard.title, id: currentId.split("K")[1] },
-      });
+      console.log(currentPost);
+      const PostSubTasksToBeUpdated = {
+        ...currentPost,
+        Text: currentPost.Text.concat(`,${addCard.title}`),
+      };
+      dispatch(updatedPostsubtask(PostSubTasksToBeUpdated));
     } else {
       setShowAddCard((prev) => !prev);
-      dispatch({
-        type: ADD_POST,
-        value: { ...addCard, id: Math.random().toString(), date: new Date() },
-      });
+      dispatch(
+        createpost({
+          ...addCard,
+          date: new Date(),
+          user_id: user.id,
+          favorite: false,
+          trash: false,
+        })
+      );
     }
     clear();
   };
@@ -99,7 +121,7 @@ const style = {
           <Box sx={style}>
             <h1>
               {currentId
-                ? currentId.includes(ADD_TASK)
+                ? currentId?.toString().includes(ADD_TASK)
                   ? "Add Task"
                   : "Edit Post"
                 : "Add Post"}
@@ -132,10 +154,11 @@ const style = {
               variant="standard"
               width="100%"
               fullWidth
+              autoFocus
             />
             <br />
             <br />
-            {(!currentId || !currentId?.includes(ADD_TASK)) && (
+            {(!currentId || !currentId?.toString().includes(ADD_TASK)) && (
               <>
                 <div style={{ display: "flex", marginTop: "10px" }}>
                   <label>fontColor:&nbsp;</label>
@@ -204,7 +227,7 @@ const style = {
                 sx={{ width: "50px" }}
               >
                 {currentId
-                  ? currentId.includes(ADD_TASK)
+                  ? currentId?.toString().includes(ADD_TASK)
                     ? "Add"
                     : "Edit"
                   : "Add"}
