@@ -14,14 +14,15 @@ function SignUp() {
     password: "",
   });
   const {register, handleSubmit, formState:{errors}, reset}= useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (event) => {
+    console.log(event);
+    dispatch(createuser(userData, navigate));
     reset()
   }
-  const handleSignUp = async (event) => {
-    event.preventDefault();
-    dispatch(createuser(userData, navigate));
-  };
+  // const handleSignUp = async (event) => {
+  //   event.preventDefault();
+  //   dispatch(createuser(userData, navigate));
+  // };
   const handleChange = (event) => {
     setuserData({ ...userData, [event.target.name]: event.target.value });
   };
@@ -47,17 +48,17 @@ function SignUp() {
               type="text"
               placeholder="username"
               name="username"
-              // {...register("username", { required: "UserName is required" })}
+              {...register("username", { required: "UserName is required" })}
               onChange={handleChange}
               value={userData.username}
               className={styles.input}
             />
-            <span style={{fontSize:"10px",color:"red"}}>{errors.UserName?.message}</span>
+            <span style={{fontSize:"10px",color:"red"}}>{errors.username?.message}</span>
             <input
               type="email"
               placeholder="Email"
               name="email"
-              // {...register("email", { required: "Email is required" })}
+              {...register("email", { required: "Email is required" })}
               onChange={handleChange}
               value={userData.email}
               className={styles.input}
@@ -67,10 +68,10 @@ function SignUp() {
               type="password"
               placeholder="Password"
               name="password"
-              // {...register("password",{required:"Password is required",minLength:{
-              //   value: 8,
-              //   message: "At Least 8 Character"
-              // }})}
+              {...register("password",{required:"Password is required",minLength:{
+                value: 8,
+                message: "At Least 8 Character"
+              }})}
               onChange={handleChange}
               value={userData.password}
               className={styles.input}
@@ -80,10 +81,11 @@ function SignUp() {
             <button
               type="submit"
               className={styles.blue_btn}
-              onClick={handleSignUp}
+              // onClick={handleSignUp}
             >
               Sign Up
             </button>
+            {/* <input type="submit" className={styles.blue_btn}/> */}
           </form>
         </div>
       </div>
