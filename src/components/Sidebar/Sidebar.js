@@ -12,6 +12,8 @@ import classes from "./Sidebar.module.css";
 import { useState } from "react";
 
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import PanToolIcon from '@mui/icons-material/PanTool';
 // import ReactSwitch from "react-switch";
 
 const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode, toggleTheme,theme }) => {
@@ -39,10 +41,11 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode, toggleTheme,theme
       </IconButton>
       <Root className={classes.flex} id="sidebar">
         <div className={classes.start}>
-          {/* <div> */}
+        <label className="text"> {mode ? "Draggable mode" : "Not Draggable "}</label>
           <Switch
             {...label}
             checked={isOn}
+            checkedIcon={<PanToolIcon fontSize="small"/>}        
             onClick={(e) => {
               setfreeMode(e.target.checked);
               setisOn(e.target.checked);
@@ -96,11 +99,13 @@ const Sidebar = ({ show, setshow, isMobile, setfreeMode, mode, toggleTheme,theme
 
         <Divider />
         <Divider />       
-    <span style={{display:"flex", justifyContent:"center", marginTop:"50px",marginLeft:"-5px"}}>
+    <span
+     style={{display:"flex", justifyContent:"center", marginTop:"50px",marginLeft:"-5px"}}>
         <label className="text"> {theme === "light" ? "Light Mode" : "Dark Mode"}
         <Switch
           onChange={toggleTheme}
           checked={theme === "dark"}
+          // icon={<LightModeIcon fontSize="small"/>} 
           checkedIcon={<DarkModeIcon fontSize="medium"/>}        
           />
           </label>
