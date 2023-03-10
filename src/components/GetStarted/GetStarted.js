@@ -11,9 +11,11 @@ function GetStarted() {
       <h4 className="title">Let's do this</h4>
       <img className="arrangeImg" src={Arrange} alt="blabla" />
       <h2 className="title">Gets things done with Post-It</h2>
+      <div className="link">
       <Link className="btnn" to="/login">
         Get Started
       </Link>
+      </div>
       <img className="leftEllipse" src={LeftEllipse} alt="blabla" />
       <img className="rightEllipse" src={RightEllipse} alt="blabla" />
     </div>

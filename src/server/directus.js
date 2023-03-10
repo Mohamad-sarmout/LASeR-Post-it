@@ -31,6 +31,7 @@ export const directus = {
         password: { _eq: password },
       },
     });
+     if(data.data.length===0)return false
     return data.data[0];
   },
 

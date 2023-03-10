@@ -1,3 +1,4 @@
+import { isPlainObject } from "@mui/utils";
 import { directus } from "../server/directus";
 import { AUTH_USER } from "../store/constants/AuthAction";
 
@@ -11,10 +12,15 @@ export const createuser = (userData, navigate) => async (dispatch) => {
   }
 };
 export const signin = (userData, navigate) => async (dispatch) => {
+  // alert("inn")
   try {
     const data = await directus.getUser(userData);
+    if((data===false))return true
+    console.log(data);
     dispatch({ type: AUTH_USER, value: data });
+    // alert("before")
     navigate("/Home");
+    // alert("after")
   } catch (error) {
     console.log(error);
   }

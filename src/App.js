@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import {  Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./components/Home";
 import GetStarted from "./components/GetStarted/GetStarted";
@@ -16,13 +16,9 @@ function App() {
         path="/Home/*"
         element={
           <>
-            {!user ? (
-              <Navigate to={"/login"} />
-            ) : (
               <div className="App">
                 <Home />
               </div>
-            )}
           </>
         }
       />
