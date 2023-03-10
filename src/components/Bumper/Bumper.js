@@ -33,11 +33,11 @@ const Bumper = () => {
   }, [postCount]);
 
   return (
-    <div className={btnClasses}>
+    <div className={btnClasses} id="bumper">
       <span className={classes.icon}>
         <AssignmentIcon sx={{ ml: "3px" }} scale="3" />{" "}
       </span>
-      {postCount > 0 && <span className={classes.badge}>{postCount}</span>}
+      { <span className={classes.badge } id="iconBumper">{postCount}</span>}
     </div>
   );
 };

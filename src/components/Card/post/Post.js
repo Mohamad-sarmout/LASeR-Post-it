@@ -218,7 +218,9 @@ const Post = ({
               </IconButton>
             )}
             <IconButton
+              className="icons"
               onClick={() => setisPressedForCopy({ value: true, ...card })}
+
             >
               <MoreVertIcon />
             </IconButton> */}

@@ -28,7 +28,18 @@ export default function KeepMountedModal({
   setShowAddCard,
   currentId,
   setcurrentId,
+  isMobile,
 }) {
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: isMobile ? 300 : 500,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 2,
+  };
   const user = JSON.parse(localStorage.getItem("profile"));
   const [addCard, setaddCard] = useState({
     id: "",

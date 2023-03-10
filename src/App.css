@@ -180,3 +180,15 @@ body {
 #dark #sidebar {
   background-color: #252423;
 }
+#dark #bumper  {
+  background-color: #5083d9;
+}
+#dark #iconBumper {
+  background-color: #296fe6;
+}
+#dark #search {
+  background-color: #252423;
+}
+#dark #postitBody {
+   color: #296fe6;
+}

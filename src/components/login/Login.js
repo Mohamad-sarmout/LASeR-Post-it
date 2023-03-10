@@ -4,57 +4,77 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 import { signin } from "../../actions/UserActions";
 import { useState } from "react";
-import { directus } from "../../server/directus";
+import { useForm } from "react-hook-form";
+
 
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [userData, setuserData] = useState({ email: "", password: "" });
-  const handleSignIn = async (event) => {
-    event.preventDefault();
-    dispatch(signin(userData, navigate));
-  };
+  const [error, seterror] = useState(false)
+
+  // const {register, handleSubmit, formState:{errors}, reset}= useForm();
+  // const onSubmit = async (event) => {
+  //   console.log(event);
+  //   event.preventDefault();
+  //   dispatch(signin(userData, navigate));
+  //   reset()
+  // }
+  const {register, handleSubmit, formState:{errors}, reset}= useForm();
+  const onSubmit =  (event) => {
+    console.log(event);
+    dispatch(signin(userData, navigate)).then(res=>seterror(true))
+    reset()
+  }
+  // const handleSignIn = async (event) => {
+  //   event.preventDefault();
+  //   dispatch(signin(userData, navigate));
+  // };
+
   const handleChange = (event) => {
     setuserData({ ...userData, [event.target.name]: event.target.value });
   };
+
   return (
     <div className={styles.login_container}>
       <div className={styles.login_form_container}>
         <div className={styles.left}>
           <form
             className={styles.form_container}
-            //  onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <h1>Login to Your Account</h1>
             <input
               type="email"
               placeholder="Email"
               name="email"
+              {...register("email", { required: "Email is required" })}
               onChange={handleChange}
               value={userData.email}
-              required
               className={styles.input}
             />
+              <span style={{fontSize:"10px",color:"red"}}>{errors.email?.message}</span>
             <input
               type="password"
               placeholder="Password"
               name="password"
+              {...register("password",{required:"Password is required",minLength:{
+                value: 8,
+                message: "At Least 8 Character"
+              }})}
               onChange={handleChange}
               value={userData.password}
-              required
               className={styles.input}
             />
-            {/* {error && <div className={styles.error_msg}>{error}</div>} */}
-            <Link to="/Home">
-              {" "}
+         <span style={{fontSize:"10px",color:"red"}}>{errors.password?.message}</span>
               <button
                 type="submit"
                 className={styles.blue_btn}
-                onClick={handleSignIn}
+                // onClick={handleSignIn}
               >
                 Sign In
               </button>
-            </Link>
+              {error && <span style={{color:"red"}}>user not found!</span>}
           </form>
         </div>
         <div className={styles.right}>

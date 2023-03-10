@@ -24,6 +24,7 @@ function Navbar({ isMobile, show, setshow, setsearchPosts }) {
       </div>
       <Paper
         component="form"
+        id="search"
         sx={{
           borderRadius: 20,
           border: "1px solid #e3e3e3",

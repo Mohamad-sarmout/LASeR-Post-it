@@ -12,9 +12,8 @@ import { useState } from "react";
 
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { lightBlue } from "@mui/material/colors";
-import { AUTH_USER } from "../../store/constants/AuthAction";
-import { useDispatch } from "react-redux";
-
+import LightModeIcon from "@mui/icons-material/LightMode";
+import PanToolIcon from "@mui/icons-material/PanTool";
 const Sidebar = ({
   show,
   setshow,
@@ -43,8 +42,21 @@ const Sidebar = ({
 
   return (
     <Root className={classes.flex} id="sidebar">
+      {isMobile && (
+        <IconButton
+          className="icons"
+          onClick={() => setshow(!show)}
+          sx={{ display: { md: "none", lg: "none" } }}
+        >
+          <ChevronLeftIcon />
+        </IconButton>
+      )}
       <div className={classes.start}>
-        {/* <div> */}
+        {!isMobile && (
+          <label className="text">
+            {mode ? "Draggable mode" : "Not Draggable "}
+          </label>
+        )}
         <Switch
           {...label}
           checked={isOn}
@@ -54,15 +66,6 @@ const Sidebar = ({
           }}
           title="Switch for free mode"
         />
-        {isMobile && (
-          <IconButton
-            className="icons"
-            onClick={() => setshow(!show)}
-            sx={{ display: { md: "none", lg: "none" } }}
-          >
-            <ChevronLeftIcon />
-          </IconButton>
-        )}
       </div>
       <div
         style={{
@@ -146,7 +149,7 @@ const Sidebar = ({
         sx={{ mt: "20px" }}
         onClick={() => {
           localStorage.removeItem("profile");
-          navigate("/");
+          navigate("/login");
         }}
       >
         Log Out

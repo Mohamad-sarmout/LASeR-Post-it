@@ -1,5 +1,6 @@
 import { directus } from "../server/directus";
 import { FAV_POST, REV_POST } from "../store/constants/FavoriteAction";
+import { DELETE_POST } from "../store/constants/PostAction";
 import { ADD_POST_TO_TRASH } from "../store/constants/TrashAction";
 import { DELETE_POST } from "../store/constants/PostAction";
 export const favpost = (postData) => async (dispatch) => {
