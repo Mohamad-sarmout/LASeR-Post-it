@@ -13,9 +13,11 @@ export const createuser = (userData, navigate) => async (dispatch) => {
 export const signin = (userData, navigate) => async (dispatch) => {
   try {
     const data = await directus.getUser(userData);
+    console.log(data);
     dispatch({ type: AUTH_USER, value: data });
     navigate("/Home");
   } catch (error) {
+    console.log(error);
     console.log(error);
   }
 };

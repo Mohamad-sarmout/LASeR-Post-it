@@ -28,10 +28,17 @@ function Home() {
   const queryParams = new URLSearchParams(location.search);
   const isSort = queryParams.get("sort");
   const inHome = location.pathname.split("/")[2]?.toLocaleLowerCase();
+  const obj = { name: "sas", email: "sasasa" };
   useEffect(() => {
     dispatch(getposts(user?.id));
   }, [dispatch, user?.id]);
+  useEffect(() => {
+    console.log("effect");
+  }, [obj]);
 
+  useEffect(() => {
+    console.log("noeffect");
+  }, []);
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <div style={{ backgroundColor: "#EBEBF0" }} className="Wrap" id={theme}>

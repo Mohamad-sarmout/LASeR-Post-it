@@ -1,7 +1,7 @@
 import { directus } from "../server/directus";
 import { FAV_POST, REV_POST } from "../store/constants/FavoriteAction";
 import { ADD_POST_TO_TRASH } from "../store/constants/TrashAction";
-
+import { DELETE_POST } from "../store/constants/PostAction";
 export const favpost = (postData) => async (dispatch) => {
   try {
     const updatedPost = await directus.updateTask({
@@ -34,6 +34,7 @@ export const deleteFavPost = (postData) => async (dispatch) => {
     });
     dispatch({ type: REV_POST, value: updatedPost.id });
     dispatch({ type: ADD_POST_TO_TRASH, value: updatedPost });
+    dispatch({ type: DELETE_POST, value: updatedPost.id });
   } catch (error) {
     console.log(error);
   }

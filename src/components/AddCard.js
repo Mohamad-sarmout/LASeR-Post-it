@@ -11,6 +11,7 @@ import {
   updatedpost,
   updatedPostsubtask,
 } from "../actions/PostActions";
+import { MuiChipsInput } from "mui-chips-input";
 const style = {
   position: "absolute",
   top: "50%",
@@ -32,7 +33,7 @@ export default function KeepMountedModal({
   const [addCard, setaddCard] = useState({
     id: "",
     title: "",
-    Text: "",
+    Text: [],
     color: "",
     fontColor: "",
     stylefont: "",
@@ -58,7 +59,8 @@ export default function KeepMountedModal({
   };
   useEffect(() => {
     if (currentId && !currentId?.toString().includes(ADD_TASK)) {
-      setaddCard(currentPost);
+      const Text = !currentPost?.Text ? [] : currentPost.Text.split("|");
+      setaddCard({ ...currentPost, Text: Text });
     }
   }, [currentId]);
 
@@ -68,6 +70,7 @@ export default function KeepMountedModal({
       dispatch(
         updatedpost({
           ...addCard,
+          Text: addCard.Text.join("|"),
         })
       );
     } else if (currentId?.toString().includes(ADD_TASK)) {
@@ -75,14 +78,18 @@ export default function KeepMountedModal({
       console.log(currentPost);
       const PostSubTasksToBeUpdated = {
         ...currentPost,
-        Text: currentPost.Text.concat(`,${addCard.title}`),
+        Text: currentPost.Text.concat(`|${addCard.title}`),
       };
       dispatch(updatedPostsubtask(PostSubTasksToBeUpdated));
     } else {
       setShowAddCard((prev) => !prev);
+      console.log(addCard.Text);
+      console.log(addCard.Text.join("|"));
+
       dispatch(
         createpost({
           ...addCard,
+          Text: addCard.Text.join("|"),
           date: new Date(),
           user_id: user.id,
           favorite: false,
@@ -102,6 +109,29 @@ export default function KeepMountedModal({
       stylefont: "",
       date: "",
     });
+  };
+  console.log(addCard.Text);
+  const handleAddChip = (newChip, i) => {
+    console.log(newChip);
+    console.log(addCard.Text);
+    setaddCard({ ...addCard, Text: [...addCard.Text, newChip] });
+  };
+  const handleDeleteChip = (chip, chipIndex) => {
+    console.log({ chip, chipIndex });
+    const newChips = [...addCard.Text];
+    newChips.splice(chipIndex, 1);
+    console.log(newChips);
+    setaddCard({ ...addCard, Text: newChips });
+  };
+  const handleEditChip = (chipValue, chipIndex) => {
+    console.log(chipIndex, chipValue);
+    const updatedChips = [...addCard.Text];
+    updatedChips[chipIndex] = chipValue;
+    setaddCard({ ...addCard, Text: updatedChips });
+  };
+  const handleInputChange = (inputValue) => {
+    console.log(addCard.Text);
+    // console.log(inputValue);
   };
   return (
     <div>
@@ -171,18 +201,23 @@ export default function KeepMountedModal({
                 </div>
                 <br />
                 <br />
-                <TextField
-                  sx={{ backgroundColor: "#f0f8ff" }}
-                  id="filled-multiline-static"
+                <MuiChipsInput
                   label="Description"
-                  multiline
-                  name="Text"
-                  onChange={handleChange}
-                  value={addCard?.Text}
-                  rows={4}
+                  value={addCard.Text}
+                  onAddChip={handleAddChip}
+                  onDeleteChip={handleDeleteChip}
+                  onEditChip={handleEditChip}
+                  onInputChange={handleInputChange}
+                  clearInputOnBlur
+                  disableDeleteOnBackspace
                   fullWidth
-                  variant="standard"
                 />
+                {/* // sx={{ backgroundColor: "#f0f8ff" }}
+                // id="filled-multiline-static" // label="Description" //
+                multiline // name="Text" // onChange={handleChange}
+                // value={addCard?.Text}
+                // rows={4}
+                // fullWidth // variant="standard" */}
                 <br />
                 <br />
                 <div style={{ display: "flex", marginTop: "10px" }}>

@@ -1,33 +1,49 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import Home from "./components/Home";
 import GetStarted from "./components/GetStarted/GetStarted";
 import Login from "./components/login/Login";
 import SignUp from "./components/signup/SignUp";
+import { useSelector } from "react-redux";
+import { isPlainObject } from "@mui/utils";
+import { useEffect } from "react";
+import { useState } from "react";
 
 function App() {
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const location = useLocation();
+  const [isLoggedIn, setisLoggedIn] = useState(false);
+  let user = null;
+  useEffect(() => {
+    user = JSON.parse(localStorage.getItem("profile"));
+    if (user) setisLoggedIn(true);
+    else setisLoggedIn(false);
+    console.log(user);
+    console.log(isPlainObject(user));
+  }, [location]);
   return (
     <Routes>
-      <Route path="/" element={<GetStarted />} />
+      <Route
+        path="/"
+        element={<>{!isLoggedIn ? <GetStarted /> : <Navigate to="/Home" />}</>}
+      />
       <Route
         path="/login"
-        element={user ? <Navigate to={"/home"} /> : <Login />}
+        element={<>{!isLoggedIn ? <Login /> : <Navigate to="/Home" />}</>}
       />
       <Route
         path="/signUp"
-        element={user ? <Navigate to={"/home"} /> : <SignUp />}
+        element={<>{!isLoggedIn ? <SignUp /> : <Navigate to="/Home" />}</>}
       />
       <Route
         path="/Home/*"
         element={
           <>
-            {!user ? (
-              <Navigate to={"/login"} />
-            ) : (
+            {isLoggedIn ? (
               <div className="App">
                 <Home />
               </div>
+            ) : (
+              <Navigate to="/login" />
             )}
           </>
         }

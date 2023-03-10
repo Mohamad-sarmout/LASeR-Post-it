@@ -12,6 +12,8 @@ import { useState } from "react";
 
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { lightBlue } from "@mui/material/colors";
+import { AUTH_USER } from "../../store/constants/AuthAction";
+import { useDispatch } from "react-redux";
 
 const Sidebar = ({
   show,
@@ -23,6 +25,7 @@ const Sidebar = ({
   theme,
 }) => {
   const user = JSON.parse(localStorage.getItem("profile"));
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isOn, setisOn] = useState(false);
   const Root = styled(Box)(({ theme }) => ({

@@ -4,6 +4,9 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
 import { createuser } from "../../actions/UserActions";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function SignUp() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,6 +24,7 @@ function SignUp() {
   };
   return (
     <div className={styles.signup_container}>
+      <ToastContainer />
       <div className={styles.signup_form_container}>
         <div className={styles.left}>
           <h1>Welcome Back</h1>

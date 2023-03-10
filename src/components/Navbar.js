@@ -12,14 +12,16 @@ function Navbar({ isMobile, show, setshow, setsearchPosts }) {
   };
   return (
     <div className="flex" style={{ position: "fixed" }}>
-      {isMobile && !show && (
-        <IconButton onClick={() => setshow(!show)}>
-          <MenuIcon sx={{ mb: "-6px", mr: "5px" }} />
-        </IconButton>
-      )}
-      <Link to="/home" style={{ textDecoration: "none", color: "inherit" }}>
-        Post it App
-      </Link>
+      <div>
+        {isMobile && !show && (
+          <IconButton onClick={() => setshow(!show)}>
+            <MenuIcon sx={{ mb: "-6px", mr: "5px" }} />
+          </IconButton>
+        )}
+        <Link to="/home" style={{ textDecoration: "none", color: "inherit" }}>
+          Post it App
+        </Link>
+      </div>
       <Paper
         component="form"
         sx={{

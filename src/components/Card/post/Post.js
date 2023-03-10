@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
 import React, { useState } from "react";
 import Draggable from "react-draggable";
 import "../Card.css";
@@ -36,9 +36,14 @@ const Post = ({
   isPressedForCopy,
   setisPressedForCopy,
 }) => {
+  console.log(card?.Text?.split("|")?.length > 1);
+  console.log(card);
+  console.log(card?.Text);
   const dispatch = useDispatch();
   const [isDrag, setisDrag] = useState(true);
   const [isActive, setisActive] = useState(card.favorite);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   const location = useLocation();
   const inHome = location.pathname.split("/")[2]?.toLocaleLowerCase();
   const handleFav = (card) => {
@@ -71,11 +76,18 @@ const Post = ({
     dispatch(updatedpost({ ...card, fontColor, color, stylefont }));
     setisPressedForCopy({ value: false });
   };
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   let keysPressed = {};
   return (
     <Draggable
       key={index}
       handle=".handle"
+      defaultClassName="drag"
       disabled={free && isDrag ? (isMobile ? false : false) : true}
       axis="both"
       bounds="parent"
@@ -90,70 +102,111 @@ const Post = ({
         setisDrag(true);
       }}
     >
-      <div
-        role="button"
-        tabIndex="0"
-        onClick={() => {
-          setisDrag(true);
-        }}
-        onDoubleClick={() =>
-          isPressedForCopy.value && handleCopyDesign(card.id)
-        }
-        onKeyDown={(event) => {
-          keysPressed[event.key] = true;
-          if (keysPressed["Control"] && event.key === "c") {
-            isPressedForCopy.value = true;
-            setisPressedForCopy({ value: true, ...card });
-          }
-          if (keysPressed["Control"] && event.key === "v") {
+      <Grid item>
+        <div
+          role="button"
+          tabIndex="0"
+          onClick={() => {
+            setisDrag(true);
+          }}
+          onDoubleClick={() => {
             isPressedForCopy.value && handleCopyDesign(card.id);
-            isPressedForCopy.value = false;
-          }
-        }}
-        className="Card"
-        key={card}
-        style={{
-          padding: "10px",
-          // overflow: "scroll",
-          width: "auto",
-          height: "auto",
-          maxWidth: isMobile ? "280px" : "330px",
-          maxHeight: "280px",
-          color: card?.fontColor,
-          backgroundColor: card?.color,
-          fontFamily: card.stylefont,
-        }}
-      >
-        <div className="handle" />
-        <div className="row">
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <h3>{card.title}</h3>
-            <h6>{moment(card?.date).fromNow()}</h6>
-          </div>
-          <div>
-            {inHome !== "trash" && (
+            console.log("doub");
+          }}
+          onKeyDown={(event) => {
+            keysPressed[event.key] = true;
+            if (keysPressed["Control"] && event.key === "c") {
+              isPressedForCopy.value = true;
+              setisPressedForCopy({ value: true, ...card });
+            }
+            if (keysPressed["Control"] && event.key === "v") {
+              isPressedForCopy.value && handleCopyDesign(card.id);
+              isPressedForCopy.value = false;
+            }
+          }}
+          className="Card"
+          key={card}
+          style={{
+            padding: "10px",
+            // overflow: "scroll",
+            // width: "auto",
+            // height: "auto",
+            // maxWidth: isMobile ? "280px" : "330px",
+            // maxHeight: "280px",
+            color: card?.fontColor,
+            backgroundColor: card?.color,
+            fontFamily: card.stylefont,
+          }}
+        >
+          <div className="handle" />
+          <div className="row">
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <h3>{card.title}</h3>
+              <h6>{moment(card?.date).fromNow()}</h6>
+            </div>
+            <div>
+              {inHome !== "trash" && (
+                <IconButton
+                  className="icons"
+                  onClick={handleFav.bind(null, card)}
+                >
+                  {isActive ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                </IconButton>
+              )}
+              {inHome === "trash" && (
+                <IconButton
+                  onClick={handleRestore.bind(null, card)}
+                  className="icons"
+                >
+                  <RestoreIcon />
+                </IconButton>
+              )}
               <IconButton
                 className="icons"
-                onClick={handleFav.bind(null, card)}
+                onClick={handleTrash.bind(null, card)}
               >
-                {isActive ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                <DeleteIcon />
               </IconButton>
-            )}
-            {inHome === "trash" && (
+              {/* <div> */}
               <IconButton
-                onClick={handleRestore.bind(null, card)}
-                className="icons"
+                id="basic-button"
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}
               >
-                <RestoreIcon />
+                <MoreVertIcon />
               </IconButton>
-            )}
-            <IconButton
-              className="icons"
-              onClick={handleTrash.bind(null, card)}
-            >
-              <DeleteIcon />
-            </IconButton>
-            {!inHome && (
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem
+                  onClick={() => {
+                    setisPressedForCopy({ value: true, ...card });
+                    console.log("cop");
+                    setAnchorEl(null);
+                  }}
+                >
+                  Copy Design
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setcurrentId(card.id);
+                    setShowAddCard((prevState) => !prevState);
+                    setAnchorEl(null);
+                  }}
+                >
+                  Edit
+                </MenuItem>
+              </Menu>
+              {/* </div> */}
+              {/* {!inHome && (
               <IconButton
                 className="icons"
                 onClick={() => {
@@ -168,39 +221,38 @@ const Post = ({
               onClick={() => setisPressedForCopy({ value: true, ...card })}
             >
               <MoreVertIcon />
-            </IconButton>
+            </IconButton> */}
+            </div>
           </div>
-        </div>
-        <div>
-          {card?.Text?.split(",")?.length > 1
-            ? card?.Text?.split(",")?.map((task, index) => (
+          <div>
+            {card?.Text?.split("|")?.length > 1 ? (
+              card?.Text?.split("|")?.map((task, index) => (
                 <ul key={index}>
-                  <li>
+                  <li style={{ wordBreak: "break-all" }}>
                     {index + 1}:{task}
                   </li>
                 </ul>
               ))
-            : card?.Text?.split(",")?.map((task, index) => (
-                <ul key={index}>
-                  <li> {task} </li>
-                </ul>
-              ))}
+            ) : (
+              <p> {card?.Text} </p>
+            )}
+          </div>
+          <div style={{ textAlign: "end" }}>
+            {!inHome && (
+              <IconButton
+                className="icons"
+                onClick={() => {
+                  console.log(card?.id);
+                  setcurrentId(ADD_TASK + card?.id);
+                  setShowAddCard((prevState) => !prevState);
+                }}
+              >
+                <AddIcon />
+              </IconButton>
+            )}
+          </div>
         </div>
-        <div style={{ textAlign: "end" }}>
-          {!inHome && (
-            <IconButton
-              className="icons"
-              onClick={() => {
-                console.log(card?.id);
-                setcurrentId(ADD_TASK + card?.id);
-                setShowAddCard((prevState) => !prevState);
-              }}
-            >
-              <AddIcon />
-            </IconButton>
-          )}
-        </div>
-      </div>
+      </Grid>
     </Draggable>
   );
 };
