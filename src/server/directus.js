@@ -6,19 +6,25 @@ const person = directusClient.items("persons");
 export const directus = {
   async createUser(userData) {
     const { username, email, password } = userData;
-    let usid = await person.createOne({
-      username: username,
-      email: email,
-      password: password,
-    });
-    // return await person.readByQuery({
-    //   filter: {
-    //     id: {
-    //       _eq: usid,
-    //     },
-    //   },
-    // }).id;
-    return usid;
+    try {
+      let usid = await person.createOne({
+        username: username,
+        email: email,
+        password: password,
+      });
+      // return await person.readByQuery({
+      //   filter: {
+      //     id: {
+      //       _eq: usid,
+      //     },
+      //   },
+      // }).id;
+      return usid;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+      return error;
+    }
   },
 
   async getUser(userData) {
@@ -31,7 +37,7 @@ export const directus = {
         password: { _eq: password },
       },
     });
-     if(data.data.length===0)return false
+    if (data.data.length === 0) return false;
     return data.data[0];
   },
 

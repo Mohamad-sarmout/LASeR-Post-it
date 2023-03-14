@@ -50,6 +50,7 @@ export default function Card({
     );
   return (
     <div
+      id="card"
       style={{
         display: "flex",
         flexWrap: "wrap",
@@ -71,6 +72,7 @@ export default function Card({
           index={index}
           card={card}
           setShowAddCard={setShowAddCard}
+          isMobile={isMobile}
           setcurrentId={setcurrentId}
           free={free}
         />

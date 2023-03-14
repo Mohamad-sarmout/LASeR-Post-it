@@ -86,8 +86,10 @@ h1 {
   border: 1px solid transparent;
 }
 .drag {
-  width: 400px;
-  height: 300px;
-  /* max-width: auto;
-  max-height: auto; */
+  /* width: 400px;
+  height: 300px; */
+  width: auto;
+  height: auto;
+  max-width: 400px;
+  max-height: 300px;
 }

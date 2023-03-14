@@ -51,3 +51,8 @@
     font-size: large;
   }
 }
+@media (max-height: 500px) {
+  .arrangeImg {
+    height: 20rem;
+  }
+}

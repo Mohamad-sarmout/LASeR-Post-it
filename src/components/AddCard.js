@@ -41,6 +41,7 @@ export default function KeepMountedModal({
     p: 2,
   };
   const user = JSON.parse(localStorage.getItem("profile"));
+  const [error, setError] = useState(false);
   const [addCard, setaddCard] = useState({
     id: "",
     title: "",
@@ -76,42 +77,47 @@ export default function KeepMountedModal({
   }, [currentId]);
 
   const handleSubmit = async () => {
-    if (currentId && !currentId?.toString().includes(ADD_TASK)) {
-      setShowAddCard((prev) => !prev);
-      dispatch(
-        updatedpost({
-          ...addCard,
-          Text: addCard.Text.join("|"),
-        })
-      );
-    } else if (currentId?.toString().includes(ADD_TASK)) {
-      setShowAddCard((prev) => !prev);
-      console.log(currentPost);
-      const PostSubTasksToBeUpdated = {
-        ...currentPost,
-        Text: currentPost.Text.concat(`|${addCard.title}`),
-      };
-      dispatch(updatedPostsubtask(PostSubTasksToBeUpdated));
-    } else {
-      setShowAddCard((prev) => !prev);
-      console.log(addCard.Text);
-      console.log(addCard.Text.join("|"));
+    if (addCard.title.length > 0) {
+      if (currentId && !currentId?.toString().includes(ADD_TASK)) {
+        setShowAddCard((prev) => !prev);
+        dispatch(
+          updatedpost({
+            ...addCard,
+            Text: addCard.Text.join("|"),
+          })
+        );
+      } else if (currentId?.toString().includes(ADD_TASK)) {
+        setShowAddCard((prev) => !prev);
+        console.log(currentPost);
+        const PostSubTasksToBeUpdated = {
+          ...currentPost,
+          Text: currentPost.Text.concat(`|${addCard.title}`),
+        };
+        dispatch(updatedPostsubtask(PostSubTasksToBeUpdated));
+      } else {
+        setShowAddCard((prev) => !prev);
+        console.log(addCard.Text);
+        console.log(addCard.Text.join("|"));
 
-      dispatch(
-        createpost({
-          ...addCard,
-          Text: addCard.Text.join("|"),
-          date: new Date(),
-          user_id: user.id,
-          favorite: false,
-          trash: false,
-        })
-      );
+        dispatch(
+          createpost({
+            ...addCard,
+            Text: addCard.Text.join("|"),
+            date: new Date(),
+            user_id: user.id,
+            favorite: false,
+            trash: false,
+          })
+        );
+      }
+      clear();
+    } else {
+      setError(true);
     }
-    clear();
   };
   const clear = () => {
     setcurrentId("");
+    setError(false);
     setaddCard({
       id: "",
       title: "",
@@ -194,7 +200,13 @@ export default function KeepMountedModal({
               width="100%"
               fullWidth
               autoFocus
+              required
             />
+            {error && (
+              <span style={{ color: "red", fontSize: "12px" }}>
+                please fill the title
+              </span>
+            )}
             <br />
             <br />
             {(!currentId || !currentId?.toString().includes(ADD_TASK)) && (
@@ -223,6 +235,7 @@ export default function KeepMountedModal({
                   disableDeleteOnBackspace
                   fullWidth
                 />
+                <span>double click on the task to edit it</span>
                 {/* // sx={{ backgroundColor: "#f0f8ff" }}
                 // id="filled-multiline-static" // label="Description" //
                 multiline // name="Text" // onChange={handleChange}

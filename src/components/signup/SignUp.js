@@ -3,10 +3,11 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
-import { useForm } from 'react-hook-form'
+import { useForm } from "react-hook-form";
 import { createuser } from "../../actions/UserActions";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 
 function SignUp() {
   const dispatch = useDispatch();
@@ -16,12 +17,25 @@ function SignUp() {
     email: "",
     password: "",
   });
-  const {register, handleSubmit, formState:{errors}, reset}= useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
   const onSubmit = async (event) => {
     console.log(event);
-    dispatch(createuser(userData, navigate));
-    reset()
-  }
+    dispatch(createuser(userData, navigate)).then(() => {
+      toast.warn("Email has been already used");
+    });
+    reset();
+  };
+  useEffect(() => {
+    console.log(Object.keys(errors).length !== 0);
+    Object.keys(errors).length !== 0 &&
+      toast.error("Please fill a valid values");
+  }, [errors]);
+
   // const handleSignUp = async (event) => {
   //   event.preventDefault();
   //   dispatch(createuser(userData, navigate));
@@ -48,7 +62,6 @@ function SignUp() {
           >
             <h1>Create Account</h1>
             <input
-             
               type="text"
               placeholder="username"
               name="username"
@@ -57,7 +70,9 @@ function SignUp() {
               value={userData.username}
               className={styles.input}
             />
-            <span style={{fontSize:"10px",color:"red"}}>{errors.username?.message}</span>
+            <span style={{ fontSize: "10px", color: "red" }}>
+              {errors.username?.message}
+            </span>
             <input
               type="email"
               placeholder="Email"
@@ -67,25 +82,28 @@ function SignUp() {
               value={userData.email}
               className={styles.input}
             />
-             <span style={{fontSize:"10px",color:"red"}}>{errors.email?.message}</span>
+            <span style={{ fontSize: "10px", color: "red" }}>
+              {errors.email?.message}
+            </span>
             <input
               type="password"
               placeholder="Password"
               name="password"
-              {...register("password",{required:"Password is required",minLength:{
-                value: 8,
-                message: "At Least 8 Character"
-              }})}
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 8,
+                  message: "At Least 8 Character",
+                },
+              })}
               onChange={handleChange}
               value={userData.password}
               className={styles.input}
-             
             />
-             <span style={{fontSize:"10px",color:"red"}}>{errors.password?.message}</span>
-            <button
-              type="submit"
-              className={styles.blue_btn}
-            >
+            <span style={{ fontSize: "10px", color: "red" }}>
+              {errors.password?.message}
+            </span>
+            <button type="submit" className={styles.blue_btn}>
               Sign Up
             </button>
           </form>

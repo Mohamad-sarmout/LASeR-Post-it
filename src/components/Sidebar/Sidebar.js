@@ -14,6 +14,7 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { lightBlue } from "@mui/material/colors";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import PanToolIcon from "@mui/icons-material/PanTool";
+import { useDispatch } from "react-redux";
 const Sidebar = ({
   show,
   setshow,
@@ -51,22 +52,24 @@ const Sidebar = ({
           <ChevronLeftIcon />
         </IconButton>
       )}
-      <div className={classes.start}>
-        {!isMobile && (
-          <label className="text">
-            {mode ? "Draggable mode" : "Not Draggable "}
-          </label>
-        )}
-        <Switch
-          {...label}
-          checked={isOn}
-          onClick={(e) => {
-            setfreeMode(e.target.checked);
-            setisOn(e.target.checked);
-          }}
-          title="Switch for free mode"
-        />
-      </div>
+      {!isMobile && (
+        <div className={classes.start}>
+          {!isMobile && (
+            <label className="text">
+              {mode ? "Draggable mode" : "Not Draggable "}
+            </label>
+          )}
+          <Switch
+            {...label}
+            checked={isOn}
+            onClick={(e) => {
+              setfreeMode(e.target.checked);
+              setisOn(e.target.checked);
+            }}
+            title="Switch for free mode"
+          />
+        </div>
+      )}
       <div
         style={{
           display: "flex",

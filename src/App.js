@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import Home from "./components/Home";
 import GetStarted from "./components/GetStarted/GetStarted";
@@ -25,22 +25,22 @@ function App() {
       <Route path="/" element={<GetStarted />} />
       <Route
         path="/login"
-        element={user ? <Navigate to={"/home"} /> : <Login />}
+        element={isLoggedIn ? <Navigate to={"/home"} /> : <Login />}
       />
       <Route
         path="/signUp"
-        element={user ? <Navigate to={"/home"} /> : <SignUp />}
+        element={isLoggedIn ? <Navigate to={"/home"} /> : <SignUp />}
       />
       <Route
         path="/Home/*"
         element={
           <>
-            {!user ? (
-              <Navigate to={"/login"} />
-            ) : (
+            {isLoggedIn ? (
               <div className="App">
                 <Home />
               </div>
+            ) : (
+              <Navigate to={"/login"} />
             )}
           </>
         }

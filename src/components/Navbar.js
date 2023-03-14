@@ -12,13 +12,19 @@ function Navbar({ isMobile, show, setshow, setsearchPosts }) {
   };
   return (
     <div className="flex" style={{ position: "fixed" }}>
-      <div>
+      <div className="navbar-left-side">
         {isMobile && !show && (
           <IconButton onClick={() => setshow(!show)}>
             <MenuIcon sx={{ mb: "-6px", mr: "5px" }} />
           </IconButton>
         )}
-        <Link to="/home" style={{ textDecoration: "none", color: "inherit" }}>
+        <Link
+          to="/home"
+          style={{
+            textDecoration: "none",
+            color: "inherit",
+          }}
+        >
           Post it App
         </Link>
       </div>

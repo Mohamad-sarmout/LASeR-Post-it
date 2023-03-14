@@ -57,3 +57,34 @@
     transform: scale(1);
   }
 }
+
+@media (max-width: 400px) {
+  .Bumper {
+    cursor: pointer;
+    font: inherit;
+    border: none;
+    background-color: #c4e6ed;
+    color: white;
+    padding: 0.2rem 0.1rem;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 25px;
+    font-weight: bold;
+  }
+
+  .icon {
+    width: 1.35rem;
+    height: 1.35rem;
+    margin-right: 0rem;
+  }
+
+  .badge {
+    background-color: #a0e6f6;
+    padding: 0.15rem 0.5rem;
+    font-size: 15px;
+    border-radius: 25px;
+    margin-left: 1rem;
+    font-weight: bold;
+  }
+}

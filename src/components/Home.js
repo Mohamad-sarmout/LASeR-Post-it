@@ -7,12 +7,17 @@ import AddCard from "./AddCard";
 import { Route, Routes, useLocation, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getposts } from "../actions/PostActions";
+import isOnline from "is-online";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
+const isConnected = async () => await isOnline();
 
 export const ThemeContext = createContext(null);
 function Home() {
   const [show, setshow] = useState(true);
   const [freeMode, setfreeMode] = useState(false);
   const isMobile = useMediaQuery("(max-width:900px)");
+  console.log(isMobile);
   const [showAddCard, setShowAddCard] = useState(false);
   const [currentId, setcurrentId] = useState("");
   const [searchPosts, setsearchPosts] = useState(null);
@@ -20,17 +25,21 @@ function Home() {
   const toggleTheme = () => {
     setTheme((curr) => (curr === "light" ? "dark" : "light"));
   };
-  const state = useSelector(state => state);
-   
-//   useEffect(() => {
-//     localStorage.setItem('state',JSON.stringify(state))
-//  },[state])
- 
-  useEffect(() => {
-    localStorage.setItem('theme',theme)
- },[theme])
+  const state = useSelector((state) => state);
 
-  
+  //   useEffect(() => {
+  //     localStorage.setItem('state',JSON.stringify(state))
+  //  },[state])
+
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+  useEffect(() => {
+    setInterval(() => {
+      isConnected().then((res) => !res && toast.warn("You are Disconnected"));
+    }, 5000);
+  }, []);
+
   const user = JSON.parse(localStorage.getItem("profile"));
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -38,21 +47,17 @@ function Home() {
   const queryParams = new URLSearchParams(location.search);
   const isSort = queryParams.get("sort");
   const inHome = location.pathname.split("/")[2]?.toLocaleLowerCase();
-  const obj = { name: "sas", email: "sasasa" };
   useEffect(() => {
     dispatch(getposts(user?.id));
   }, [dispatch, user?.id]);
-  useEffect(() => {
-    console.log("effect");
-  }, [obj]);
-
-  useEffect(() => {
-    console.log("noeffect");
-  }, []);
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <div style={{backgroundColor:theme==="dark"? "#11100f" :""}} className="Wrap" id={theme}>
-        
+      <div
+        style={{ backgroundColor: theme === "dark" ? "#11100f" : "" }}
+        className="Wrap"
+        id={theme}
+      >
+        <ToastContainer limit={1} />
         <Navbar
           isMobile={isMobile}
           show={show}
@@ -65,7 +70,7 @@ function Home() {
           style={{
             position: "relative",
             top: "70px",
-            left: isMobile ? (show ? "4rem" : "3rem") : "250px",
+            left: isMobile ? (show ? "4rem" : "0.3rem") : "250px",
             display: "flex",
           }}
         >

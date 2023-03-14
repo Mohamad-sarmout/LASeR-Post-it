@@ -1,14 +1,19 @@
+import { unfavpost } from "../../actions/FavoriteActions";
+import { FAV_POST } from "../constants/FavoriteAction";
 import {
   ADD_POST,
   ADD_TASK,
   DELETE_POST,
+  FAVORITE,
   GET_POSTS,
+  UNFAVORITE,
   UPDATE_POST,
 } from "../constants/PostAction";
 
 const initstate = [];
 
 const postreducer = (state = initstate, action) => {
+  let newPosts;
   switch (action.type) {
     case GET_POSTS:
       return [...action.value];
@@ -37,6 +42,23 @@ const postreducer = (state = initstate, action) => {
       );
       updatedPostTasks[postToBeUpdatedTasks].Text.push(action.value.task);
       return updatedPostTasks;
+    case FAVORITE:
+      console.log("out");
+      console.log(action.value);
+      newPosts = state.map((post) =>
+        post.id === action.value ? { ...post, favorite: true } : post
+      );
+      console.log(newPosts);
+      return newPosts;
+    case UNFAVORITE:
+      console.log("in");
+      console.log(action.value);
+
+      newPosts = state.map((post) =>
+        post.id === action.value ? { ...post, favorite: false } : post
+      );
+      console.log(newPosts);
+      return newPosts;
     default:
       return state;
   }
