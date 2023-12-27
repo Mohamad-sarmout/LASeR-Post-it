@@ -1,0 +1,46 @@
+.getStarted {
+    background-color: #EBEBF0;
+    margin-top: -20px;
+    text-align: center;
+}
+.arrangeImg {
+    max-width: 100%;
+}
+.title {
+    color: #222A72;
+}
+
+.btn {
+    color: #FFFFFF;
+    font-weight: 700;
+    background-color: #68E1FD;
+    padding: 10px 30px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.leftEllipse {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+}
+
+.rightEllipse {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+}
+
+@media (max-width:499px) {
+    .leftEllipse {
+        display: none;
+    }
+    .rightEllipse {
+        display: none;
+    }
+    .arrangeImg {
+        width:"70%"
+    }
+}
